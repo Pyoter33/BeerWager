@@ -22,10 +22,21 @@ import androidx.compose.ui.unit.dp
 import com.example.beerwager.R
 import com.example.beerwager.data.data_source.Wager
 import com.example.beerwager.ui.theme.Grey
+import com.example.beerwager.utils.ColorValues
+import com.example.beerwager.utils.Dimen
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+
+val WAGER_BODY_HEIGHT= 90.dp
+const val WAGER_BODY_WEIGHT= 0.60f
+const val DATE_TIME_WEIGHT= 0.25f
+const val AT_STAKE_WEIGHT= 0.15f
+const val WAGER_COLUMN_WEIGHT= 0.90f
+const val WAGER_ICON_WEIGHT = 0.10f
+const val NUMBER_OF_WAGERERS_FOR_SINGLE_ICON = 2
+const val NUMBER_OF_LINES = 2
 
 @Composable
 private fun DateTimeColumn(
@@ -63,38 +74,40 @@ private fun MainWagerBody(
     Box(
         modifier = modifier
             .background(
-                color = Wager.WAGER_COLORS[color].copy(0.5f),
-                RoundedCornerShape(corner = CornerSize(10.dp))
+                color = Wager.WAGER_COLORS[color].copy(ColorValues.ALPHA_HALF),
+                RoundedCornerShape(corner = CornerSize(Dimen.CORNER_RADIUS_BIG))
             )
-            .padding(5.dp)
+            .padding(Dimen.MARGIN_SMALL)
     ) {
         Row {
             Column(horizontalAlignment = Alignment.Start, modifier = Modifier
-                .weight(0.9f)
-                .padding(bottom = 5.dp)
+                .weight(WAGER_COLUMN_WEIGHT)
+                .padding(bottom = Dimen.MARGIN_SMALL)
                 .fillMaxWidth()
                 .fillMaxHeight()) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.bodyMedium,
+                    maxLines = NUMBER_OF_LINES,
+                    overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
                     text = description,
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Normal,
-                    maxLines = 2,
+                    maxLines = NUMBER_OF_LINES,
                     overflow = TextOverflow.Ellipsis,
                     color = Grey
                 )
 
             }
             Icon(
-                if (numberOfWagerers < 2) Icons.Filled.Person else Icons.Filled.Groups,
+                if (numberOfWagerers <= NUMBER_OF_WAGERERS_FOR_SINGLE_ICON) Icons.Filled.Person else Icons.Filled.Groups,
                 contentDescription = stringResource(id = R.string.text_wagerers_indicator_icon),
                 modifier = Modifier
                     .align(Alignment.Bottom)
-                    .weight(0.1f)
+                    .weight(WAGER_ICON_WEIGHT)
             )
         }
     }
@@ -137,7 +150,7 @@ fun WagerItem(wager: Wager, modifier: Modifier = Modifier) {
             date = wager.date,
             time = wager.time,
             hasNotification = wager.hasNotification,
-            modifier = Modifier.weight(0.25f)
+            modifier = Modifier.weight(DATE_TIME_WEIGHT)
         )
         MainWagerBody(
             title = wager.title,
@@ -145,10 +158,10 @@ fun WagerItem(wager: Wager, modifier: Modifier = Modifier) {
             color = wager.colour,
             numberOfWagerers = wager.wagerers.size,
             modifier = Modifier
-                .weight(0.60f)
-                .height(90.dp)
+                .weight(WAGER_BODY_WEIGHT)
+                .height(WAGER_BODY_HEIGHT)
                 .fillMaxWidth()
         )
-        BeersAtStakeColumn(beersAtStake = wager.beersAtStake, modifier = Modifier.weight(0.15f))
+        BeersAtStakeColumn(beersAtStake = wager.beersAtStake, modifier = Modifier.weight(AT_STAKE_WEIGHT))
     }
 }

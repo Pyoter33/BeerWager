@@ -1,10 +1,8 @@
 package com.example.beerwager.ui.state
 
 import com.example.beerwager.data.data_source.Wager
-import com.example.beerwager.domain.models.WagerFilter
 
-data class WagersState(
+data class WagerSearchState(
     val wagers: Map<String, List<Wager>> = emptyMap(),
-    val activeFilters: List<WagerFilter> = emptyList(),
     val searchText: String = ""
 )

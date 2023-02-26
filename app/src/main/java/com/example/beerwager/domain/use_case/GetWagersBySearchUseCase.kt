@@ -11,7 +11,7 @@ class GetWagersBySearchUseCase @Inject constructor(private val repository: Wager
 
     operator fun invoke(query: String): Flow<Map<String, List<Wager>>> {
         return repository.getWagers().map { wagers ->
-            val filteredList = wagers.filter { it.title.lowercase().contains(query.lowercase()) }
+            val filteredList = if (query.isNotEmpty()) wagers.filter { it.title.lowercase().contains(query, true) } else emptyList()
             return@map mapOf(
                 WagerFilter.CLOSED.toString() to wagerFiltersUtil.filterClosed(filteredList),
                 WagerFilter.UPCOMING.toString() to wagerFiltersUtil.filterUpcoming(filteredList),

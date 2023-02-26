@@ -11,9 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.unit.dp
 import com.example.beerwager.data.data_source.Wager
 import com.example.beerwager.domain.models.WagerFilter
+import com.example.beerwager.utils.ColorValues
+import com.example.beerwager.utils.Dimen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -23,16 +24,16 @@ fun WagerList(wagers: Map<String, List<Wager>>, modifier: Modifier = Modifier) {
             item(key = category) {
                 WagerListHeader(
                     headerTitle = category,
-                    Modifier.padding(8.dp).animateItemPlacement(tween())
+                    Modifier.padding(Dimen.MARGIN_MEDIUM).animateItemPlacement(tween())
                 )
             }
             items(wagers, key = { it.id!! }) {
                 if (category == WagerFilter.CLOSED.toString()) {
-                    WagerItem(wager = it, Modifier.alpha(0.5f).animateItemPlacement(tween()))
+                    WagerItem(wager = it, Modifier.alpha(ColorValues.ALPHA_HALF).animateItemPlacement(tween()))
                 } else {
                     WagerItem(wager = it, Modifier.animateItemPlacement(tween()))
                 }
-                Spacer(modifier = Modifier.padding(8.dp))
+                Spacer(modifier = Modifier.padding(Dimen.MARGIN_MEDIUM))
             }
         }
     }

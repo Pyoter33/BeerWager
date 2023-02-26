@@ -8,6 +8,8 @@
     <string name="text_notification_icon"> Notification icon </string>
     <string name="text_wagerers_indicator_icon"> Number of wagerers indicator icon </string>
     <string name="text_beer_icon"> Beer icon </string>
+    <string name="text_search_icon"> Magnifying glass icon </string>
+    <string name="text_back_icon"> Back arrow icon </string>
     <string name="text_at_stake"> at stake </string>
     <string name="text_closed"> Closed </string>
     <string name="text_upcoming"> Upcoming </string>
