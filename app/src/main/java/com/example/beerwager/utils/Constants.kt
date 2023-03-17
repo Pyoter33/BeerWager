@@ -15,5 +15,6 @@ object ColorValues {
 
 object NavigationArgs {
     const val ARG_SEARCH_QUERY = "searchQuery"
+    const val ARG_WAGER_ID = "wagerId"
     const val ARG_EMPTY_STRING = ""
 }
