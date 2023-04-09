@@ -2,6 +2,7 @@
     <string name="app_name">BeerWager</string>
     <string name="text_empty_description"> Description cannot be empty </string>
     <string name="text_empty_title"> Title cannot be empty </string>
+    <string name="text_empty_date"> Date cannot be empty </string>
     <string name="text_no_wagerers"> You need to add at least one wagerer! </string>
     <string name="text_empty_wagerer"> Every wagerer needs to have a name! </string>
     <string name="text_all_day"> All day </string>

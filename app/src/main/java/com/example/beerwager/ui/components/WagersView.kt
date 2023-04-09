@@ -14,24 +14,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.beerwager.R
 import com.example.beerwager.domain.models.WagerFilter
 import com.example.beerwager.ui.state.FilterEvent
+import com.example.beerwager.ui.state.WagersState
 import com.example.beerwager.ui.theme.*
-import com.example.beerwager.ui.view_model.WagersViewModel
 import com.example.beerwager.utils.Dimen
+import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WagersView(
     modifier: Modifier = Modifier,
-    viewModel: WagersViewModel = hiltViewModel(),
+    wagersState: StateFlow<WagersState>,
     searchQuery: String,
-    onSearchClick: (String) -> Unit
+    onSearchClick: (String) -> Unit,
+    setSearchQuery: (String) -> Unit,
+    onEvent: (FilterEvent) -> Unit
 ) {
-    val state by viewModel.wagersState.collectAsState()
-    viewModel.setSearchQuery(searchQuery)
+    val state by wagersState.collectAsState()
+    setSearchQuery(searchQuery)
 
     Scaffold(
         floatingActionButton = { FloatingButton() }
@@ -55,9 +57,9 @@ fun WagersView(
                 modifier = Modifier.padding(horizontal = Dimen.MARGIN_MEDIUM)
             ) { active, filter ->
                 if (active) {
-                    viewModel.onEvent(FilterEvent(state.activeFilters - filter))
+                    onEvent(FilterEvent(state.activeFilters - filter))
                 } else {
-                    viewModel.onEvent(FilterEvent(state.activeFilters + filter))
+                    onEvent(FilterEvent(state.activeFilters + filter))
                 }
             }
             WagerList(wagers = state.wagers)

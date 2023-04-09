@@ -3,6 +3,7 @@ package com.example.beerwager.ui.view_model
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.beerwager.data.data_source.Wager
 import com.example.beerwager.domain.use_case.*
 import com.example.beerwager.ui.state.*
 import com.example.beerwager.utils.NavigationArgs
@@ -11,12 +12,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class CreateEditWagerViewModel(
+class CreateEditWagerViewModel @Inject constructor(
     private val getWagerByIdUseCase: GetWagerByIdUseCase,
+    private val createWagerUseCase: CreateWagerUseCase,
     private val validateDescriptionUseCase: ValidateDescriptionUseCase,
     private val validateWagerersUseCase: ValidateWagerersUseCase,
+    private val validateDateUseCase: ValidateDateUseCase,
     private val validateTitleUseCase: ValidateTitleUseCase,
     private val validateWagererNameUseCase: ValidateWagererNameUseCase,
     private val savedStateHandle: SavedStateHandle
@@ -34,16 +38,97 @@ class CreateEditWagerViewModel(
     val createWagerState = _createWagerState.asStateFlow()
 
     fun onEvent(event: CreateWagersEvent) {
-        when(event) {
-            is CreateEvent -> {}
-            is AddWagererEvent -> {
-                createWagerState.value.let {
-                    //_createWagerState.value = it.copy(wagerers = it.wagerers + it.wagererName)
-                }
-
-
+        when (event) {
+            is CreateEvent -> {
+                validateAndCreateWager()
             }
-            is ShowInfoEvent -> {}
+            is AddWagererEvent -> {
+                createWagerState.value.let { state ->
+                    val validationResult = validateWagererNameUseCase(state.wagererName)
+                    _createWagerState.value = if (validationResult.isSuccessful) {
+                        state.copy(wagerers = state.wagerers + state.wagererName)
+                    } else {
+                        state.copy(wagerersError = validationResult.message)
+                    }
+                }
+            }
+            is ToggleInfoEvent -> {
+                _createWagerState.value =
+                    createWagerState.value.copy(isInfoDisplayed = event.isDisplayed)
+            }
+            is BeersChangedEvent -> {
+                if(event.value in 0..99) {
+                    _createWagerState.value = createWagerState.value.copy(beersAtStake = event.value)
+                }
+            }
+            is CalendarChangedEvent -> {
+                _createWagerState.value =
+                    createWagerState.value.copy(isInCalendar = event.isChecked)
+            }
+            is ColourChangedEvent -> {
+                _createWagerState.value = createWagerState.value.copy(colour = event.id)
+            }
+            is DateChangedEvent -> {
+                _createWagerState.value = createWagerState.value.copy(date = event.date)
+            }
+            is DescriptionChangedEvent -> {
+                _createWagerState.value =
+                    createWagerState.value.copy(description = event.description)
+            }
+            is NotificationChangedEvent -> {
+                _createWagerState.value =
+                    createWagerState.value.copy(hasNotification = event.isChecked)
+            }
+            is TimeChangedEvent -> {
+                _createWagerState.value = createWagerState.value.copy(time = event.time)
+            }
+            is TitleChangedEvent -> {
+                _createWagerState.value = createWagerState.value.copy(title = event.title)
+            }
+            is WagererNameChangedEvent -> {
+                _createWagerState.value = createWagerState.value.copy(wagererName = event.name)
+            }
+        }
+    }
+
+    private fun validateAndCreateWager() {
+        createWagerState.value.let { state ->
+            val titleValidationResult = validateTitleUseCase(state.title)
+            val descriptionValidationResult = validateDescriptionUseCase(state.description)
+            val dateValidationResult = validateDateUseCase(state.date)
+            val wagerersValidationResult = validateWagerersUseCase(state.wagerers)
+
+            val hasError = listOf(
+                titleValidationResult,
+                descriptionValidationResult,
+                dateValidationResult,
+                wagerersValidationResult
+            ).any { !it.isSuccessful }
+
+            if (hasError) {
+                _createWagerState.value = createWagerState.value.copy(
+                    wagerersError = wagerersValidationResult.message,
+                    titleError = titleValidationResult.message,
+                    descriptionError = descriptionValidationResult.message,
+                    dateError = dateValidationResult.message
+                )
+                return
+            }
+
+            viewModelScope.launch {
+                createWagerUseCase(
+                    Wager(
+                        state.title,
+                        state.description,
+                        state.date!!,
+                        state.time,
+                        state.colour,
+                        state.wagerers,
+                        state.beersAtStake,
+                        state.hasNotification
+                    )
+                )
+            }
         }
     }
 
@@ -66,6 +151,5 @@ class CreateEditWagerViewModel(
                 )
             }
         }
-
     }
 }

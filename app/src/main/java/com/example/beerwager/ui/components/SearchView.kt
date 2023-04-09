@@ -19,24 +19,25 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.beerwager.R
 import com.example.beerwager.data.data_source.Wager
 import com.example.beerwager.domain.models.WagerFilter
 import com.example.beerwager.ui.state.SearchEvent
+import com.example.beerwager.ui.state.WagerSearchState
 import com.example.beerwager.ui.theme.White
-import com.example.beerwager.ui.view_model.WagerSearchViewModel
 import com.example.beerwager.utils.ColorValues
 import com.example.beerwager.utils.Dimen
+import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchView(
     modifier: Modifier = Modifier,
-    viewModel: WagerSearchViewModel = hiltViewModel(),
-    onBackClick: (String) -> Unit
+    wagerSearchState: StateFlow<WagerSearchState>,
+    onBackClick: (String) -> Unit,
+    onEvent: (SearchEvent) -> Unit
 ) {
-    val state by viewModel.wagerSearchState.collectAsState()
+    val state by wagerSearchState.collectAsState()
     Scaffold { paddingValues ->
         Column(
             modifier = modifier
@@ -47,7 +48,7 @@ fun SearchView(
             ExtendedSearchField(
                 searchQuery = state.searchText,
                 modifier = Modifier.padding(end = Dimen.MARGIN_MEDIUM),
-                onValueChange = { viewModel.onEvent(SearchEvent(it)) },
+                onValueChange = { onEvent(SearchEvent(it)) },
                 onBackButtonClick = { onBackClick(state.searchText) }
             )
             SearchList(wagers = state.wagers)
