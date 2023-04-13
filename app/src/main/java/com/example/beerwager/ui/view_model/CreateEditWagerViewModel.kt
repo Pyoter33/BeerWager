@@ -46,12 +46,13 @@ class CreateEditWagerViewModel @Inject constructor(
                 createWagerState.value.let { state ->
                     val validationResult = validateWagererNameUseCase(state.wagererName)
                     _createWagerState.value = if (validationResult.isSuccessful) {
-                        state.copy(wagerers = state.wagerers + state.wagererName)
+                        state.copy(wagerers = state.wagerers + state.wagererName, wagerersError = null)
                     } else {
                         state.copy(wagerersError = validationResult.message)
                     }
                 }
             }
+
             is ToggleInfoEvent -> {
                 _createWagerState.value =
                     createWagerState.value.copy(isInfoDisplayed = event.isDisplayed)
@@ -69,11 +70,11 @@ class CreateEditWagerViewModel @Inject constructor(
                 _createWagerState.value = createWagerState.value.copy(colour = event.id)
             }
             is DateChangedEvent -> {
-                _createWagerState.value = createWagerState.value.copy(date = event.date)
+                _createWagerState.value = createWagerState.value.copy(date = event.date, dateError = null)
             }
             is DescriptionChangedEvent -> {
                 _createWagerState.value =
-                    createWagerState.value.copy(description = event.description)
+                    createWagerState.value.copy(description = event.description, descriptionError = null)
             }
             is NotificationChangedEvent -> {
                 _createWagerState.value =
@@ -83,7 +84,7 @@ class CreateEditWagerViewModel @Inject constructor(
                 _createWagerState.value = createWagerState.value.copy(time = event.time)
             }
             is TitleChangedEvent -> {
-                _createWagerState.value = createWagerState.value.copy(title = event.title)
+                _createWagerState.value = createWagerState.value.copy(title = event.title, titleError = null)
             }
             is WagererNameChangedEvent -> {
                 _createWagerState.value = createWagerState.value.copy(wagererName = event.name)

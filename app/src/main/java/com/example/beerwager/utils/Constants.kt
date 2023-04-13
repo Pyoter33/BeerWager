@@ -5,8 +5,11 @@ import androidx.compose.ui.unit.dp
 object Dimen {
     val MARGIN_SMALL = 4.dp
     val MARGIN_MEDIUM = 8.dp
+    val MARGIN_BIG = 12.dp
+    val MARGIN_LARGE = 16.dp
     val CORNER_RADIUS_SMALL = 5.dp
     val CORNER_RADIUS_BIG = 10.dp
+    val ICON_SIZE_BIG = 48.dp
 }
 
 object ColorValues {

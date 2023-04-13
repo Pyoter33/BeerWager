@@ -21,6 +21,6 @@ data class Wager(
     val id: Long? = null
 ) {
     companion object {
-        val WAGER_COLORS = listOf(Blue, Pink, Orange, Yellow, Purple)
+        val WAGER_COLORS = listOf(Blue, Pink, Green, Orange, Yellow, Purple)
     }
 }
