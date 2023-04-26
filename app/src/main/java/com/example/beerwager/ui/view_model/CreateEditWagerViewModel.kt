@@ -89,6 +89,12 @@ class CreateEditWagerViewModel @Inject constructor(
             is WagererNameChangedEvent -> {
                 _createWagerState.value = createWagerState.value.copy(wagererName = event.name)
             }
+            is RemoveWagererEvent -> {
+                _createWagerState.value = createWagerState.value.run {
+                    copy(wagerers =
+                    wagerers.filterIndexed { i, _ -> i != event.index })
+                }
+            }
         }
     }
 

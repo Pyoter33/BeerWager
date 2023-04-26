@@ -5,6 +5,8 @@ import android.app.TimePickerDialog
 import android.widget.DatePicker
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -25,8 +27,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.beerwager.data.data_source.Wager
-import com.example.beerwager.ui.state.BeersChangedEvent
-import com.example.beerwager.ui.state.CreateWagersEvent
 import com.example.beerwager.ui.theme.*
 import com.example.beerwager.utils.Dimen
 import com.example.beerwager.utils.Dimen.ICON_SIZE_BIG
@@ -39,12 +39,12 @@ import java.util.*
 @Composable
 fun BeersAtStakeView(
     beersAtStake: Int,
-    onBeersChanged: (CreateWagersEvent) -> Unit,
+    onBeersChanged: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier, verticalAlignment = CenterVertically) {
         IconButton(onClick = {
-            onBeersChanged(BeersChangedEvent(beersAtStake - 1))
+            onBeersChanged(beersAtStake - 1)
         }) {
             Icon(Icons.Outlined.RemoveCircleOutline, "")
         }
@@ -55,7 +55,7 @@ fun BeersAtStakeView(
         )
         Icon(Icons.Default.SportsBar, "", modifier = Modifier.size(ICON_SIZE_BIG))
         IconButton(onClick = {
-            onBeersChanged(BeersChangedEvent(beersAtStake + 1))
+            onBeersChanged(beersAtStake + 1)
         }) {
             Icon(Icons.Outlined.AddCircleOutline, "")
         }
@@ -421,9 +421,90 @@ fun ColourPickerView(
         }
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun WagerersSectionsView(
+    label: String,
+    wagererName: String,
+    wagerers: List<String>,
+    onWagererNameChange: (String) -> Unit,
+    onWagererAdded: () -> Unit,
+    onWagererRemoved: (Int) -> Unit,
+    errorMessage: String?, 
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyMedium,
+            color = Black,
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(bottom = MARGIN_SMALL)
+        )
+        Row {
+            Column(modifier = Modifier.weight(5f)) {
+                OutlinedTextField(
+                    value = wagererName,
+                    onValueChange = onWagererNameChange,
+                    singleLine = true,
+                    isError = !errorMessage.isNullOrEmpty(),
+                    textStyle = MaterialTheme.typography.bodyMedium,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        textColor = Black,
+                        focusedBorderColor = Black,
+                        unfocusedBorderColor = Black,
+                        disabledBorderColor = Black
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                LazyColumn(userScrollEnabled = false, modifier = Modifier.padding(start = 5.dp, bottom = 5.dp)) {
+                    itemsIndexed(wagerers) { i, value ->
+                        Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                            Text(
+                                text = value,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = Black,
+                            )
+                            IconButton(onClick = {
+                                onWagererRemoved(i)
+                            }) {
+                                Icon(Icons.Default.Delete, contentDescription = "")
+                            }
+                        }
+                    }
+                }
+            }
+            IconButton(onClick = onWagererAdded, modifier = Modifier
+                .weight(1f)
+                .padding(top = 4.dp)) {
+                Icon(Icons.Default.AddCircle, contentDescription = "", tint = Green, modifier = Modifier.size(32.dp))
+            }
+        }
+        Text(
+            text = errorMessage.orEmpty(),
+            style = MaterialTheme.typography.bodyMedium,
+            color = ErrorRed,
+            modifier = Modifier.alpha(if (errorMessage.isNullOrEmpty()) 0f else 1f)
+        )
+    }
+}
 
-
-
+@Composable
+fun CreateButton(
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Button(shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp), onClick = onClick) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyLarge,
+            color = Black
+        )
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -479,6 +560,19 @@ fun Test() {
                 onColourChanged = {},
                 modifier = Modifier.padding(5.dp)
             )
+
+            WagerersSectionsView(
+                label = "Wagerers",
+                wagererName = "Danny Bou",
+                wagerers = listOf("John Doe", "Michael Jennings"),
+                onWagererNameChange = {},
+                onWagererAdded = {},
+                onWagererRemoved = {},
+                errorMessage = "Message",
+                modifier = Modifier.padding(5.dp)
+            )
+
+            CreateButton(label = "Create goewg wlkejgw;ljg w;eag w;eagk", onClick = {})
         }
 
 

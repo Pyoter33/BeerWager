@@ -11,7 +11,7 @@ data class SearchEvent(val query: String) : WagersEvent()
 sealed class CreateWagersEvent
 object CreateEvent : CreateWagersEvent()
 object AddWagererEvent : CreateWagersEvent()
-
+data class RemoveWagererEvent(val index: Int): CreateWagersEvent()
 data class ToggleInfoEvent(val isDisplayed: Boolean) : CreateWagersEvent()
 data class BeersChangedEvent(val value: Int) : CreateWagersEvent()
 data class TitleChangedEvent(val title: String) : CreateWagersEvent()

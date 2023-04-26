@@ -15,4 +15,13 @@
     <string name="text_closed"> Closed </string>
     <string name="text_upcoming"> Upcoming </string>
     <string name="text_future"> Future </string>
+    <string name="text_title"> Title </string>
+    <string name="text_description"> Description </string>
+    <string name="text_date"> Date </string>
+    <string name="text_time"> Time </string>
+    <string name="text_send_notifications"> Send notifications </string>
+    <string name="text_add_to_calendar"> Add to calendar </string>
+    <string name="text_colour"> Colour </string>
+    <string name="text_wagerers"> Wagerers </string>
+    <string name="text_create"> Create </string>
 </resources>
