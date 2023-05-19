@@ -27,17 +27,16 @@ import com.example.beerwager.ui.state.WagerSearchState
 import com.example.beerwager.ui.theme.White
 import com.example.beerwager.utils.ColorValues
 import com.example.beerwager.utils.Dimen
-import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchView(
     modifier: Modifier = Modifier,
-    wagerSearchState: StateFlow<WagerSearchState>,
+    state: WagerSearchState,
     onBackClick: (String) -> Unit,
-    onEvent: (SearchEvent) -> Unit
+    onEvent: (SearchEvent) -> Unit,
+    onWagerClick: (Long, String) -> Unit
 ) {
-    val state by wagerSearchState.collectAsState()
     Scaffold { paddingValues ->
         Column(
             modifier = modifier
@@ -51,7 +50,7 @@ fun SearchView(
                 onValueChange = { onEvent(SearchEvent(it)) },
                 onBackButtonClick = { onBackClick(state.searchText) }
             )
-            SearchList(wagers = state.wagers)
+            SearchList(wagers = state.wagers, onWagerClick = onWagerClick)
         }
 
         BackHandler {
@@ -110,19 +109,21 @@ private fun ExtendedSearchField(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun SearchList(modifier: Modifier = Modifier, wagers: Map<String, List<Wager>>) {
+private fun SearchList(modifier: Modifier = Modifier, wagers: Map<String, List<Wager>>, onWagerClick: (Long, String) -> Unit) {
     LazyColumn(modifier = modifier) {
         wagers.forEach { (category, wagers) ->
             items(wagers, key = { it.id!! }) {
                 if (category == WagerFilter.CLOSED.toString()) {
                     WagerItem(
                         wager = it,
+                        category,
+                        onWagerClick,
                         Modifier
                             .alpha(ColorValues.ALPHA_HALF)
                             .animateItemPlacement(tween())
                     )
                 } else {
-                    WagerItem(wager = it, Modifier.animateItemPlacement(tween()))
+                    WagerItem(wager = it, category, onWagerClick, Modifier.animateItemPlacement(tween()))
                 }
                 Spacer(modifier = Modifier.padding(Dimen.MARGIN_MEDIUM))
             }

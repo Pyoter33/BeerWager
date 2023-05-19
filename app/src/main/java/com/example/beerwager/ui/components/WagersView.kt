@@ -9,8 +9,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,23 +18,22 @@ import com.example.beerwager.ui.state.FilterEvent
 import com.example.beerwager.ui.state.WagersState
 import com.example.beerwager.ui.theme.*
 import com.example.beerwager.utils.Dimen
-import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WagersView(
     modifier: Modifier = Modifier,
-    wagersState: StateFlow<WagersState>,
+    state: WagersState,
     searchQuery: String,
     onSearchClick: (String) -> Unit,
     setSearchQuery: (String) -> Unit,
+    onCreateClick: () -> Unit,
+    onWagerClick: (Long, String) -> Unit,
     onEvent: (FilterEvent) -> Unit
 ) {
-    val state by wagersState.collectAsState()
     setSearchQuery(searchQuery)
-
     Scaffold(
-        floatingActionButton = { FloatingButton() }
+        floatingActionButton = { FloatingButton(onClick = onCreateClick) }
     ) { paddingValues ->
         Column(
             modifier = modifier
@@ -62,7 +59,7 @@ fun WagersView(
                     onEvent(FilterEvent(state.activeFilters + filter))
                 }
             }
-            WagerList(wagers = state.wagers)
+            WagerList(wagers = state.wagers, onWagerClick)
         }
     }
 }
@@ -135,15 +132,15 @@ private fun ChipGroup(
 }
 
 @Composable
-private fun FloatingButton(modifier: Modifier = Modifier) {
+private fun FloatingButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     FloatingActionButton(
         modifier = modifier,
-        onClick = { },
+        onClick = onClick,
         shape = RoundedCornerShape(Dimen.CORNER_RADIUS_BIG),
         containerColor = Green,
         contentColor = Black,
         elevation = FloatingActionButtonDefaults.elevation(Dimen.MARGIN_MEDIUM)
     ) {
-        Icon(Icons.Outlined.Edit, "")
+        Icon(Icons.Outlined.Edit, stringResource(id = R.string.text_create_icon))
     }
 }

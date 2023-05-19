@@ -9,6 +9,7 @@ import com.example.beerwager.ui.state.FilterEvent
 import com.example.beerwager.ui.state.WagersState
 import com.example.beerwager.utils.NavigationArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,7 +42,7 @@ class WagersViewModel @Inject constructor(
         filters: List<WagerFilter> = emptyList()
     ) {
         job?.cancel()
-        job = viewModelScope.launch {
+        job = viewModelScope.launch(Dispatchers.IO) {
             getWagersUseCase(filters).collect {
                 stateFlow.value = stateFlow.value.copy(wagers = it, activeFilters = filters)
             }

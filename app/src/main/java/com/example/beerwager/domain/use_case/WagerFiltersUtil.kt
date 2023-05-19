@@ -11,7 +11,7 @@ class WagerFiltersUtil @Inject constructor() {
     }
 
     fun filterUpcoming(wagers: List<Wager>): List<Wager> {
-        return wagers.filter { !it.isClosed && it.date.isBefore(LocalDate.now()) }.sortedBy { it.date }
+        return wagers.filter { !it.isClosed && (it.date.isBefore(LocalDate.now()) || it.date.isEqual(LocalDate.now())) }.sortedBy { it.date }
     }
 
     fun filterFuture(wagers: List<Wager>): List<Wager> {

@@ -11,13 +11,14 @@ data class CreateWagerState(
     @StringRes val titleError: Int? = null,
     val description: String = "",
     @StringRes val descriptionError: Int? = null,
-    val date: LocalDate? = null,
-    @StringRes val dateError: Int? = null,
+    val date: LocalDate = LocalDate.now(),
     val time: LocalTime? = null,
     val hasNotification: Boolean = false,
     val isInCalendar: Boolean = false,
     val colour: Int = 0,
     val wagererName: String = "",
     val wagerers: List<String> = emptyList(),
-    @StringRes val wagerersError: Int? = null
+    @StringRes val wagerersError: Int? = null,
+    val isBlocked: Boolean = false,
+    val category: String = ""
 )

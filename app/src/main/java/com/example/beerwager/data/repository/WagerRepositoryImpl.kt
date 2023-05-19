@@ -24,7 +24,11 @@ class WagerRepositoryImpl @Inject constructor(private val dao: WagerDao): WagerR
         dao.createWager(wager)
     }
 
-    override suspend fun deleteWager(wager: Wager) {
-        dao.deleteWager(wager)
+    override suspend fun closeWager(wagerId: Long) {
+        dao.closeWager(wagerId)
+    }
+
+    override suspend fun deleteWager(wagerId: Long) {
+        dao.deleteWager(wagerId)
     }
 }

@@ -9,7 +9,7 @@ data class FilterEvent(val filters: List<WagerFilter>) : WagersEvent()
 data class SearchEvent(val query: String) : WagersEvent()
 
 sealed class CreateWagersEvent
-object CreateEvent : CreateWagersEvent()
+object SubmitWagerEvent : CreateWagersEvent()
 object AddWagererEvent : CreateWagersEvent()
 data class RemoveWagererEvent(val index: Int): CreateWagersEvent()
 data class ToggleInfoEvent(val isDisplayed: Boolean) : CreateWagersEvent()
@@ -22,3 +22,9 @@ data class NotificationChangedEvent(val isChecked: Boolean) : CreateWagersEvent(
 data class CalendarChangedEvent(val isChecked: Boolean) : CreateWagersEvent()
 data class ColourChangedEvent(val id: Int) : CreateWagersEvent()
 data class WagererNameChangedEvent(val name: String) : CreateWagersEvent()
+data class AllDayChangedEvent(val allDay: Boolean) : CreateWagersEvent()
+object EditUnlockedEvent : CreateWagersEvent()
+object DeleteWagerEvent : CreateWagersEvent()
+object CloseWagerEvent : CreateWagersEvent()
+sealed class UIEvent
+object SaveWagerEvent: UIEvent()

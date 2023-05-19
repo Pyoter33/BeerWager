@@ -18,11 +18,16 @@ interface WagerDao {
     @Insert
     suspend fun createWager(wager: Wager)
 
-    @Delete
-    suspend fun deleteWager(wager: Wager)
+    @Query(DELETE_BY_ID_QUERY)
+    suspend fun deleteWager(id: Long)
+
+    @Query(CLOSE_QUERY)
+    suspend fun closeWager(id: Long)
 
     companion object {
-        const val GET_ALL_QUERY = "SELECT * FROM wagers"
-        const val GET_BY_ID_QUERY = "SELECT * FROM wagers WHERE id = :id"
+        private const val GET_ALL_QUERY = "SELECT * FROM wagers"
+        private const val GET_BY_ID_QUERY = "SELECT * FROM wagers WHERE id = :id"
+        private const val DELETE_BY_ID_QUERY = "DELETE FROM wagers WHERE id = :id"
+        private const val CLOSE_QUERY = "UPDATE wagers SET isClosed = 1 WHERE id = :id"
     }
 }

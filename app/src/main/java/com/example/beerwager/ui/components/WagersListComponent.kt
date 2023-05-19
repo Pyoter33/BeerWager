@@ -18,23 +18,31 @@ import com.example.beerwager.utils.Dimen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WagerList(wagers: Map<String, List<Wager>>, modifier: Modifier = Modifier) {
+fun WagerList(wagers: Map<String, List<Wager>>, onWagerClick: (Long, String) -> Unit, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier) {
         wagers.forEach { (category, wagers) ->
             item(key = category) {
                 WagerListHeader(
                     headerTitle = category,
-                    Modifier.padding(Dimen.MARGIN_MEDIUM).animateItemPlacement(tween())
+                    Modifier
+                        .padding(Dimen.MARGIN_MEDIUM)
+                        .animateItemPlacement(tween())
                 )
             }
             items(wagers, key = { it.id!! }) {
                 if (category == WagerFilter.CLOSED.toString()) {
-                    WagerItem(wager = it, Modifier.alpha(ColorValues.ALPHA_HALF).animateItemPlacement(tween()))
+                    WagerItem(wager = it, category, onWagerClick,
+                        Modifier
+                            .alpha(ColorValues.ALPHA_HALF)
+                            .animateItemPlacement(tween()))
                 } else {
-                    WagerItem(wager = it, Modifier.animateItemPlacement(tween()))
+                    WagerItem(wager = it, category, onWagerClick, Modifier.animateItemPlacement(tween()))
                 }
                 Spacer(modifier = Modifier.padding(Dimen.MARGIN_MEDIUM))
             }
+        }
+        item {
+            Spacer(modifier = Modifier.padding(Dimen.MARGIN_XXLARGE))
         }
     }
 }

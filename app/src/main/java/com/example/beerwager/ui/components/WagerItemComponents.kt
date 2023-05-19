@@ -1,6 +1,7 @@
 package com.example.beerwager.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -139,11 +140,14 @@ private fun BeersAtStakeColumn(
 }
 
 @Composable
-fun WagerItem(wager: Wager, modifier: Modifier = Modifier) {
+fun WagerItem(wager: Wager, category: String, onClick: (Long, String) -> Unit, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(IntrinsicSize.Min),
+            .height(IntrinsicSize.Min)
+            .clickable {
+                wager.id?.let { onClick(it, category) }
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         DateTimeColumn(

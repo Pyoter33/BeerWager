@@ -13,5 +13,6 @@ interface WagerRepository {
 
     suspend fun createWager(wager: Wager)
 
-    suspend fun deleteWager(wager: Wager)
+    suspend fun closeWager(wagerId: Long)
+    suspend fun deleteWager(wagerId: Long)
 }
