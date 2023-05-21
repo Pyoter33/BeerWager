@@ -9,6 +9,9 @@ interface WagerDao {
     @Query(GET_ALL_QUERY)
     fun getWagers(): Flow<List<Wager>>
 
+    @Query(GET_ALL_WITH_NOTIFICATION_QUERY)
+    fun getWagersWithActiveNotifications(): Flow<List<Wager>>
+
     @Query(GET_BY_ID_QUERY)
     suspend fun getWagerById(id: Long): Wager?
 
@@ -16,7 +19,7 @@ interface WagerDao {
     suspend fun updateWager(wager: Wager)
 
     @Insert
-    suspend fun createWager(wager: Wager)
+    suspend fun createWager(wager: Wager): Long
 
     @Query(DELETE_BY_ID_QUERY)
     suspend fun deleteWager(id: Long)
@@ -26,6 +29,7 @@ interface WagerDao {
 
     companion object {
         private const val GET_ALL_QUERY = "SELECT * FROM wagers"
+        private const val GET_ALL_WITH_NOTIFICATION_QUERY = "SELECT * FROM wagers WHERE hasNotification = 1"
         private const val GET_BY_ID_QUERY = "SELECT * FROM wagers WHERE id = :id"
         private const val DELETE_BY_ID_QUERY = "DELETE FROM wagers WHERE id = :id"
         private const val CLOSE_QUERY = "UPDATE wagers SET isClosed = 1 WHERE id = :id"

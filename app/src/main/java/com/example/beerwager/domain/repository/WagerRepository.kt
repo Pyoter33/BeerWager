@@ -7,11 +7,13 @@ interface WagerRepository {
 
     fun getWagers(): Flow<List<Wager>>
 
+    fun getWagersWithActiveNotifications(): Flow<List<Wager>>
+
     suspend fun getWagerById(id: Long): Wager?
 
     suspend fun updateWager(wager: Wager)
 
-    suspend fun createWager(wager: Wager)
+    suspend fun createWager(wager: Wager): Long
 
     suspend fun closeWager(wagerId: Long)
     suspend fun deleteWager(wagerId: Long)

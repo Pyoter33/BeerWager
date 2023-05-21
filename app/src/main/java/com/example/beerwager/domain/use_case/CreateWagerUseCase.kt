@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class CreateWagerUseCase @Inject constructor(private val wagerRepository: WagerRepository) {
 
-    suspend operator fun invoke(wager: Wager) {
-        wagerRepository.createWager(wager)
+    suspend operator fun invoke(wager: Wager): Long {
+        return wagerRepository.createWager(wager)
     }
 
 }

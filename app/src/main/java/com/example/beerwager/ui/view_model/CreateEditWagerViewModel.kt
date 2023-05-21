@@ -3,11 +3,12 @@ package com.example.beerwager.ui.view_model
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.beerwager.data.data_source.Wager
 import com.example.beerwager.domain.use_case.*
 import com.example.beerwager.ui.state.*
 import com.example.beerwager.utils.CalendarHelper
 import com.example.beerwager.utils.NavigationArgs
+import com.example.beerwager.utils.NotificationHelper
+import com.example.beerwager.utils.toWager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -31,6 +32,7 @@ class CreateEditWagerViewModel @Inject constructor(
     private val validateTitleUseCase: ValidateTitleUseCase,
     private val validateWagererNameUseCase: ValidateWagererNameUseCase,
     private val calendarHelper: CalendarHelper,
+    private val notificationHelper: NotificationHelper,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -137,12 +139,16 @@ class CreateEditWagerViewModel @Inject constructor(
     private fun closeWager() {
         viewModelScope.launch(Dispatchers.IO) {
             closeWagerUseCase(wagerId)
+            val state = _createWagerState.value
+            if (state.hasNotification) notificationHelper.deleteNotification(state.toWager(), wagerId)
             _uiEvent.emit(SaveWagerEvent)
         }
     }
 
     private fun deleteWager() {
         viewModelScope.launch(Dispatchers.IO) {
+            val state = _createWagerState.value
+            if (state.hasNotification) notificationHelper.deleteNotification(state.toWager(), wagerId)
             deleteWagerUseCase(wagerId)
             _uiEvent.emit(SaveWagerEvent)
         }
@@ -174,23 +180,16 @@ class CreateEditWagerViewModel @Inject constructor(
 
     private fun submitWager(state: CreateWagerState) {
         viewModelScope.launch(Dispatchers.IO) {
-            val wager =
-                Wager(
-                    state.title,
-                    state.description,
-                    state.date,
-                    state.time,
-                    state.colour,
-                    state.wagerers,
-                    state.beersAtStake,
-                    state.hasNotification
-                )
+            var updatedWagerId = wagerId
+            val wager = state.toWager()
             if (wagerId == -1L) {
-                createWagerUseCase(wager)
+                updatedWagerId = createWagerUseCase(wager)
             } else {
                 updateWagerUseCase(wager.copy(id = wagerId))
+                notificationHelper.deleteNotification(wager, updatedWagerId)
             }
             if (state.isInCalendar) calendarHelper.addWagerReminder(wager)
+            if (state.hasNotification) notificationHelper.scheduleNotification(wager, updatedWagerId)
             _uiEvent.emit(SaveWagerEvent)
         }
     }

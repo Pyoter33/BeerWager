@@ -38,8 +38,7 @@ fun CreateEditWagerView(
     var showBackDialog by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showCloseDialog by remember { mutableStateOf(false) }
-    val permissionState = rememberPermissionState(android.Manifest.permission.WRITE_CALENDAR)
-
+    val permissionStateCalendar = rememberPermissionState(android.Manifest.permission.WRITE_CALENDAR)
 
     BackHandler { if (!state.isBlocked) showBackDialog = true else onBackClick() }
 
@@ -186,7 +185,9 @@ fun CreateEditWagerView(
                     label = stringResource(id = R.string.text_send_notifications),
                     isChecked = state.hasNotification,
                     state.isBlocked,
-                    onCheckedChange = { onEvent(NotificationChangedEvent(it)) },
+                    onCheckedChange = {
+                        onEvent(NotificationChangedEvent(it))
+                    },
                     modifier = Modifier.padding(
                         bottom = Dimen.MARGIN_XLARGE,
                         start = Dimen.MARGIN_LARGE,
@@ -201,15 +202,15 @@ fun CreateEditWagerView(
                     state.isBlocked,
                     onCheckedChange = {
                         when {
-                            permissionState.status.isGranted -> {
+                            permissionStateCalendar.status.isGranted -> {
                                 onEvent(CalendarChangedEvent(it))
                             }
-                            permissionState.status.shouldShowRationale -> {
-                                Toast.makeText(context, R.string.text_accept_permission, Toast.LENGTH_SHORT).show()
-                                permissionState.launchPermissionRequest()
+                            permissionStateCalendar.status.shouldShowRationale -> {
+                                Toast.makeText(context, R.string.text_accept_permission_calendar, Toast.LENGTH_SHORT).show()
+                                permissionStateCalendar.launchPermissionRequest()
                             }
                             else -> {
-                                permissionState.launchPermissionRequest()
+                                permissionStateCalendar.launchPermissionRequest()
                             }
                         }
                     },

@@ -36,7 +36,9 @@
     <string name="text_delete_title"> Are you sure you want to delete this wager? </string>
     <string name="text_close_title"> Are you sure you want to close this wager? </string>
     <string name="text_undo_description"> You cannot undo this operation. </string>
-    <string name="text_accept_permission"> Please accept the permission to use the calendar feature. </string>
+    <string name="text_accept_permission_calendar"> Please accept the permission to use the calendar feature. </string>
+    <string name="text_accept_permission_notification"> Please accept the permission to use the notification feature. </string>
     <string name="text_yes"> Yes </string>
     <string name="text_cancel"> Cancel </string>
+    <string name="text_notification_title"> Your wager ends now! </string>
 </resources>

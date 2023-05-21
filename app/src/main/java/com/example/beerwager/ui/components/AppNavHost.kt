@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.example.beerwager.ui.state.SaveWagerEvent
 import com.example.beerwager.ui.view_model.CreateEditWagerViewModel
 import com.example.beerwager.ui.view_model.WagerSearchViewModel
@@ -33,6 +34,7 @@ fun AppNavHost(
     navController: NavHostController = rememberNavController(),
     startDestination: String = ROUTE_WAGERS_LIST,
 ) {
+    val uri = "https://beerwager.com"
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -99,7 +101,8 @@ fun AppNavHost(
                     type = NavType.StringType
                     nullable = true
                 }
-            )
+            ),
+            deepLinks = listOf(navDeepLink { uriPattern = "$uri/wagersCreate/wagerId={wagerId}/category={category}" })
         ) {
             val viewModel = hiltViewModel<CreateEditWagerViewModel>()
             val state by viewModel.createWagerState.collectAsState()

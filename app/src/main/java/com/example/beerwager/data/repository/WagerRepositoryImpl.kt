@@ -12,6 +12,10 @@ class WagerRepositoryImpl @Inject constructor(private val dao: WagerDao): WagerR
         return dao.getWagers()
     }
 
+    override fun getWagersWithActiveNotifications(): Flow<List<Wager>> {
+        return dao.getWagersWithActiveNotifications()
+    }
+
     override suspend fun getWagerById(id: Long): Wager? {
         return dao.getWagerById(id)
     }
@@ -20,8 +24,8 @@ class WagerRepositoryImpl @Inject constructor(private val dao: WagerDao): WagerR
         dao.updateWager(wager)
     }
 
-    override suspend fun createWager(wager: Wager) {
-        dao.createWager(wager)
+    override suspend fun createWager(wager: Wager): Long {
+        return dao.createWager(wager)
     }
 
     override suspend fun closeWager(wagerId: Long) {
