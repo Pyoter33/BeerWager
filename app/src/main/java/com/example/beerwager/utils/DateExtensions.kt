@@ -7,7 +7,7 @@ import java.util.*
 
 fun LocalDateTime.toEpochMillis(): Long {
     val defaultTimeZone = TimeZone.getDefault()
-    val date = Date.from(this.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+    val date = Date.from(this.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant())
     val rawOffsetMillis = defaultTimeZone.rawOffset
     val dstOffsetMillis =
         if (defaultTimeZone.inDaylightTime(date)) defaultTimeZone.dstSavings else 0

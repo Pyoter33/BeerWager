@@ -24,7 +24,6 @@ class MainActivity @Inject constructor() : ComponentActivity() {
                 AppTheme {
                     AppNavHost()
                 }
-
             }
         }
     }

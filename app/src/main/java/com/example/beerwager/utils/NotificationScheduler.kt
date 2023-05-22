@@ -6,16 +6,19 @@ import android.content.Context
 import android.content.Intent
 import com.example.beerwager.data.data_source.Wager
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.time.LocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NotificationHelper @Inject constructor(@ApplicationContext private val context: Context) {
+class NotificationScheduler @Inject constructor(@ApplicationContext private val context: Context) {
 
     private val alarmManager by lazy { context.getSystemService(Context.ALARM_SERVICE) as AlarmManager }
 
     fun scheduleNotification(wager: Wager, wagerId: Long) {
         val time = wager.date.atTime(wager.time ?: CalendarHelper.BASE_TIME)
+        val now = LocalDateTime.now()
+        if (time.isBefore(now)) return
         alarmManager.setExact(
             AlarmManager.RTC_WAKEUP,
             time.toEpochMillis(),

@@ -13,7 +13,10 @@ class App: Application(), Configuration.Provider {
     lateinit var workerFactory: HiltWorkerFactory
 
     override fun getWorkManagerConfiguration(): Configuration {
-        return Configuration.Builder().setWorkerFactory(workerFactory).build()
+        return Configuration.Builder()
+            .setMinimumLoggingLevel(android.util.Log.INFO)
+            .setWorkerFactory(workerFactory)
+            .build()
     }
 
 }

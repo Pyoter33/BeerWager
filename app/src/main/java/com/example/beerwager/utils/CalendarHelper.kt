@@ -35,6 +35,6 @@ class CalendarHelper @Inject constructor(@ApplicationContext private val context
 
     companion object {
         private const val TIME_ZONE_ID = "UTC"
-        val BASE_TIME = LocalTime.of(12, 0)
+        val BASE_TIME: LocalTime = LocalTime.of(12, 0)
     }
 }

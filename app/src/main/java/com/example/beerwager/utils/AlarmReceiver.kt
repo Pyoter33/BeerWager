@@ -16,8 +16,8 @@ import com.example.beerwager.domain.models.WagerFilter
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val wagerId = intent.extras?.getLong(NotificationHelper.EXTRA_ID) ?: return
-        val title = intent.extras?.getString(NotificationHelper.EXTRA_TITLE) ?: return
+        val wagerId = intent.extras?.getLong(NotificationScheduler.EXTRA_ID) ?: return
+        val title = intent.extras?.getString(NotificationScheduler.EXTRA_TITLE) ?: return
 
         val notificationManager = NotificationManagerCompat.from(context)
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
