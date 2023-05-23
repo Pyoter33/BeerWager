@@ -1,4 +1,4 @@
-package com.example.beerwager.ui.components
+package com.example.beerwager.ui.components.createeditwager
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.example.beerwager.R
 import com.example.beerwager.data.data_source.Wager
+import com.example.beerwager.ui.components.WagerYesCancelDialog
 import com.example.beerwager.ui.state.*
 import com.example.beerwager.utils.Dimen
 import com.google.accompanist.permissions.ExperimentalPermissionsApi

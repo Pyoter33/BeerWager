@@ -1,4 +1,4 @@
-package com.example.beerwager.ui.components
+package com.example.beerwager.ui.components.wagerlist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -166,6 +166,8 @@ fun WagerItem(wager: Wager, category: String, onClick: (Long, String) -> Unit, m
                 .height(WAGER_BODY_HEIGHT)
                 .fillMaxWidth()
         )
-        BeersAtStakeColumn(beersAtStake = wager.beersAtStake, modifier = Modifier.weight(AT_STAKE_WEIGHT))
+        BeersAtStakeColumn(beersAtStake = wager.beersAtStake, modifier = Modifier.weight(
+            AT_STAKE_WEIGHT
+        ))
     }
 }

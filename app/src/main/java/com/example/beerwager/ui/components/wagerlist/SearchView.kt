@@ -1,4 +1,4 @@
-package com.example.beerwager.ui.components
+package com.example.beerwager.ui.components.wagerlist
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween

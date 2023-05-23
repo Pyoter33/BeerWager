@@ -1,4 +1,4 @@
-package com.example.beerwager.ui.components
+package com.example.beerwager.ui.components.createeditwager
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

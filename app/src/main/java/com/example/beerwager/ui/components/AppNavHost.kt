@@ -14,6 +14,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import com.example.beerwager.ui.components.createeditwager.CreateEditWagerView
+import com.example.beerwager.ui.components.wagerlist.SearchView
+import com.example.beerwager.ui.components.wagerlist.WagersView
 import com.example.beerwager.ui.state.SaveWagerEvent
 import com.example.beerwager.ui.view_model.CreateEditWagerViewModel
 import com.example.beerwager.ui.view_model.WagerSearchViewModel

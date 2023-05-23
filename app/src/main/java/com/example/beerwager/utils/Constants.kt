@@ -26,6 +26,7 @@ object ColorValues {
     const val ALPHA_HALF = 0.5f
     const val ALPHA_DISABLED = 0.38f
     const val ALPHA_SMALL = 0.1f
+    const val ALPHA_INVISIBLE = 0f
 }
 
 object NavigationArgs {

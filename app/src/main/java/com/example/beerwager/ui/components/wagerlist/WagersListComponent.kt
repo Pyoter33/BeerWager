@@ -1,4 +1,4 @@
-package com.example.beerwager.ui.components
+package com.example.beerwager.ui.components.wagerlist
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.ExperimentalFoundationApi
