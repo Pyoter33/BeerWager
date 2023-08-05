@@ -16,4 +16,4 @@ Creating a small app using Jetpack Compose with MVVM and Clean Architecture. The
  ---
 <img src="https://github.com/Pyoter33/BeerWager/assets/84713157/5a07d64c-c175-45d0-bd09-add90d7d0f9c" width="200"/> <img src="https://github.com/Pyoter33/BeerWager/assets/84713157/6e9daf4b-7620-4bb6-b0aa-abb855152daf" width="200"/> 
 
-Created during long train rides to my girl friend on the other side of the country <3
+Created during long train rides to my girlfriend on the other side of the country <3
