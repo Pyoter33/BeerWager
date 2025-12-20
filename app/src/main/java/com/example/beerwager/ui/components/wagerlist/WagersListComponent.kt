@@ -1,6 +1,6 @@
 package com.example.beerwager.ui.components.wagerlist
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -12,31 +12,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import com.example.beerwager.data.data_source.Wager
-import com.example.beerwager.domain.models.WagerFilter
+import com.example.beerwager.domain.models.WagerCategory
 import com.example.beerwager.utils.ColorValues
 import com.example.beerwager.utils.Dimen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WagerList(wagers: Map<String, List<Wager>>, onWagerClick: (Long, String) -> Unit, modifier: Modifier = Modifier) {
+fun WagerList(wagers: Map<WagerCategory, List<Wager>>, onWagerClick: (Long) -> Unit, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier) {
         wagers.forEach { (category, wagers) ->
             item(key = category) {
                 WagerListHeader(
-                    headerTitle = category,
+                    category = category,
                     Modifier
                         .padding(Dimen.MARGIN_MEDIUM)
-                        .animateItemPlacement(tween())
+                        .animateItem(placementSpec = tween())
                 )
             }
-            items(wagers, key = { it.id!! }) {
-                if (category == WagerFilter.CLOSED.toString()) {
-                    WagerItem(wager = it, category, onWagerClick,
+            items(wagers, key = { it.id }) {
+                if (category == WagerCategory.CLOSED) {
+                    WagerItem(wager = it, onWagerClick,
                         Modifier
                             .alpha(ColorValues.ALPHA_HALF)
-                            .animateItemPlacement(tween()))
+                            .animateItem(placementSpec = tween()))
                 } else {
-                    WagerItem(wager = it, category, onWagerClick, Modifier.animateItemPlacement(tween()))
+                    WagerItem(wager = it, onWagerClick, Modifier.animateItem(placementSpec = tween()))
                 }
                 Spacer(modifier = Modifier.padding(Dimen.MARGIN_MEDIUM))
             }
@@ -48,6 +48,6 @@ fun WagerList(wagers: Map<String, List<Wager>>, onWagerClick: (Long, String) -> 
 }
 
 @Composable
-private fun WagerListHeader(headerTitle: String, modifier: Modifier = Modifier) {
-    Text(text = headerTitle, style = MaterialTheme.typography.titleMedium, modifier = modifier)
+private fun WagerListHeader(category: WagerCategory, modifier: Modifier = Modifier) {
+    Text(text = category.toString(), style = MaterialTheme.typography.titleMedium, modifier = modifier)
 }

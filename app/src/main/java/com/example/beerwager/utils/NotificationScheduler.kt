@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import com.example.beerwager.data.data_source.Wager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.LocalDateTime
@@ -16,6 +17,9 @@ class NotificationScheduler @Inject constructor(@ApplicationContext private val 
     private val alarmManager by lazy { context.getSystemService(Context.ALARM_SERVICE) as AlarmManager }
 
     fun scheduleNotification(wager: Wager, wagerId: Long) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!alarmManager.canScheduleExactAlarms()) return
+        }
         val time = wager.date.atTime(wager.time ?: CalendarHelper.BASE_TIME)
         val now = LocalDateTime.now()
         if (time.isBefore(now)) return

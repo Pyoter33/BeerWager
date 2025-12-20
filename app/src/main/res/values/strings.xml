@@ -41,4 +41,11 @@
     <string name="text_yes"> Yes </string>
     <string name="text_cancel"> Cancel </string>
     <string name="text_notification_title"> Your wager ends now! </string>
+    <string name="notification_permissions_required">Permissions required</string>
+    <string name="notification_permission_notifications_alarms">To use all features, please allow notifications and exact alarms.</string>
+    <string name="notification_permission_notifications">To use all features, please allow notifications.</string>
+    <string name="notification_permission_alarms">To use all features, please allow exact alarms.</string>
+    <string name="notification_permission_granted">All permissions granted.</string>
+    <string name="notification_permission_allow_notifications">Allow notifications</string>
+    <string name="notification_permission_allow_exact_alarms">Allow exact alarms</string>
 </resources>

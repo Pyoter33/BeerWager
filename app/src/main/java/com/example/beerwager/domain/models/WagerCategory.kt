@@ -1,6 +1,6 @@
 package com.example.beerwager.domain.models
 
-enum class WagerFilter {
+enum class WagerCategory {
     CLOSED,
     UPCOMING,
     FUTURE;

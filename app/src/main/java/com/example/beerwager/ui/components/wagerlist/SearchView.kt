@@ -3,14 +3,31 @@ package com.example.beerwager.ui.components.wagerlist
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -21,7 +38,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import com.example.beerwager.R
 import com.example.beerwager.data.data_source.Wager
-import com.example.beerwager.domain.models.WagerFilter
+import com.example.beerwager.domain.models.WagerCategory
 import com.example.beerwager.ui.state.SearchEvent
 import com.example.beerwager.ui.state.WagerSearchState
 import com.example.beerwager.ui.theme.White
@@ -35,7 +52,7 @@ fun SearchView(
     state: WagerSearchState,
     onBackClick: (String) -> Unit,
     onEvent: (SearchEvent) -> Unit,
-    onWagerClick: (Long, String) -> Unit
+    onWagerClick: (Long) -> Unit
 ) {
     Scaffold { paddingValues ->
         Column(
@@ -83,7 +100,7 @@ private fun ExtendedSearchField(
         modifier = modifier
     ) {
         IconButton(onClick = onBackButtonClick) {
-            Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(id = R.string.text_back_icon))
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(id = R.string.text_back_icon))
         }
 
         OutlinedTextField(
@@ -95,7 +112,7 @@ private fun ExtendedSearchField(
             singleLine = true,
             textStyle = MaterialTheme.typography.bodyMedium,
             shape = RoundedCornerShape(Dimen.CORNER_RADIUS_SMALL),
-            colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = White),
+            colors = OutlinedTextFieldDefaults.colors(focusedContainerColor = White),
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequester)
@@ -109,21 +126,20 @@ private fun ExtendedSearchField(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun SearchList(modifier: Modifier = Modifier, wagers: Map<String, List<Wager>>, onWagerClick: (Long, String) -> Unit) {
+private fun SearchList(modifier: Modifier = Modifier, wagers: Map<WagerCategory, List<Wager>>, onWagerClick: (Long) -> Unit) {
     LazyColumn(modifier = modifier) {
         wagers.forEach { (category, wagers) ->
-            items(wagers, key = { it.id!! }) {
-                if (category == WagerFilter.CLOSED.toString()) {
+            items(wagers, key = { it.id }) {
+                if (category == WagerCategory.CLOSED) {
                     WagerItem(
                         wager = it,
-                        category,
                         onWagerClick,
                         Modifier
                             .alpha(ColorValues.ALPHA_HALF)
-                            .animateItemPlacement(tween())
+                            .animateItem(tween())
                     )
                 } else {
-                    WagerItem(wager = it, category, onWagerClick, Modifier.animateItemPlacement(tween()))
+                    WagerItem(wager = it, onWagerClick, Modifier.animateItem(placementSpec = tween()))
                 }
                 Spacer(modifier = Modifier.padding(Dimen.MARGIN_MEDIUM))
             }

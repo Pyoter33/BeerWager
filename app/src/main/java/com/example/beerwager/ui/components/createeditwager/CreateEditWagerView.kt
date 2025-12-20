@@ -8,7 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -16,7 +20,24 @@ import androidx.compose.ui.res.stringResource
 import com.example.beerwager.R
 import com.example.beerwager.data.data_source.Wager
 import com.example.beerwager.ui.components.WagerYesCancelDialog
-import com.example.beerwager.ui.state.*
+import com.example.beerwager.ui.state.AddWagererEvent
+import com.example.beerwager.ui.state.AllDayChangedEvent
+import com.example.beerwager.ui.state.BeersChangedEvent
+import com.example.beerwager.ui.state.CalendarChangedEvent
+import com.example.beerwager.ui.state.CloseWagerEvent
+import com.example.beerwager.ui.state.ColourChangedEvent
+import com.example.beerwager.ui.state.CreateWagerState
+import com.example.beerwager.ui.state.CreateWagersEvent
+import com.example.beerwager.ui.state.DateChangedEvent
+import com.example.beerwager.ui.state.DeleteWagerEvent
+import com.example.beerwager.ui.state.DescriptionChangedEvent
+import com.example.beerwager.ui.state.EditUnlockedEvent
+import com.example.beerwager.ui.state.NotificationChangedEvent
+import com.example.beerwager.ui.state.RemoveWagererEvent
+import com.example.beerwager.ui.state.SubmitWagerEvent
+import com.example.beerwager.ui.state.TimeChangedEvent
+import com.example.beerwager.ui.state.TitleChangedEvent
+import com.example.beerwager.ui.state.WagererNameChangedEvent
 import com.example.beerwager.utils.Dimen
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -97,7 +118,7 @@ fun CreateEditWagerView(
             ChildLayout { _, _ ->
                 TopView(
                     state.isBlocked,
-                    state.category,
+                    state.wagerCategory,
                     onCloseClick = {
                         showCloseDialog = true
                     },

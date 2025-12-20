@@ -2,21 +2,37 @@ package com.example.beerwager.ui.components.wagerlist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.beerwager.R
-import com.example.beerwager.domain.models.WagerFilter
+import com.example.beerwager.domain.models.WagerCategory
 import com.example.beerwager.ui.state.FilterEvent
 import com.example.beerwager.ui.state.WagersState
-import com.example.beerwager.ui.theme.*
+import com.example.beerwager.ui.theme.Black
+import com.example.beerwager.ui.theme.Green
+import com.example.beerwager.ui.theme.White
 import com.example.beerwager.utils.Dimen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,7 +44,7 @@ fun WagersView(
     onSearchClick: (String) -> Unit,
     setSearchQuery: (String) -> Unit,
     onCreateClick: () -> Unit,
-    onWagerClick: (Long, String) -> Unit,
+    onWagerClick: (Long) -> Unit,
     onEvent: (FilterEvent) -> Unit
 ) {
     setSearchQuery(searchQuery)
@@ -77,8 +93,8 @@ private fun SearchField(modifier: Modifier = Modifier, searchQuery: String, onCl
         textStyle = MaterialTheme.typography.bodyMedium,
         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = stringResource(id = R.string.text_search_icon)) },
         shape = RoundedCornerShape(Dimen.CORNER_RADIUS_SMALL),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            containerColor = White,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = White,
             disabledTextColor = MaterialTheme.colorScheme.onSurface,
             disabledBorderColor = MaterialTheme.colorScheme.outline,
             disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -97,13 +113,13 @@ private fun SearchField(modifier: Modifier = Modifier, searchQuery: String, onCl
 @Composable
 private fun ChipGroup(
     modifier: Modifier = Modifier,
-    activeFilters: List<WagerFilter>,
-    onFilter: (Boolean, WagerFilter) -> Unit
+    activeFilters: List<WagerCategory>,
+    onFilter: (Boolean, WagerCategory) -> Unit
 ) {
     Row(modifier, horizontalArrangement = Arrangement.spacedBy(Dimen.MARGIN_MEDIUM)) {
         FilterChip(
-            selected = WagerFilter.CLOSED in activeFilters,
-            onClick = { onFilter(WagerFilter.CLOSED in activeFilters, WagerFilter.CLOSED) },
+            selected = WagerCategory.CLOSED in activeFilters,
+            onClick = { onFilter(WagerCategory.CLOSED in activeFilters, WagerCategory.CLOSED) },
             {
                 Text(
                     text = stringResource(id = R.string.text_closed),
@@ -111,8 +127,8 @@ private fun ChipGroup(
                 )
             })
 
-        FilterChip(selected = WagerFilter.UPCOMING in activeFilters, onClick = {
-            onFilter(WagerFilter.UPCOMING in activeFilters, WagerFilter.UPCOMING)
+        FilterChip(selected = WagerCategory.UPCOMING in activeFilters, onClick = {
+            onFilter(WagerCategory.UPCOMING in activeFilters, WagerCategory.UPCOMING)
         }, {
             Text(
                 text = stringResource(id = R.string.text_upcoming),
@@ -120,8 +136,8 @@ private fun ChipGroup(
             )
         })
 
-        FilterChip(selected = WagerFilter.FUTURE in activeFilters, onClick = {
-            onFilter(WagerFilter.FUTURE in activeFilters, WagerFilter.FUTURE)
+        FilterChip(selected = WagerCategory.FUTURE in activeFilters, onClick = {
+            onFilter(WagerCategory.FUTURE in activeFilters, WagerCategory.FUTURE)
         }, {
             Text(
                 text = stringResource(id = R.string.text_future),

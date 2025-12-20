@@ -1,7 +1,11 @@
 package com.example.beerwager.utils
 
 import android.Manifest
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -12,7 +16,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import com.example.beerwager.MainActivity
 import com.example.beerwager.R
-import com.example.beerwager.domain.models.WagerFilter
+import com.example.beerwager.domain.models.WagerCategory
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -21,14 +25,14 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val notificationManager = NotificationManagerCompat.from(context)
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-            notificationManager.notify(NOTIFICATION_ID, createNotification(wagerId, title, context))
+            notificationManager.notify(wagerId.toInt(), createNotification(wagerId, title, context))
         }
     }
 
     private fun createNotification(wagerId: Long, wagerTitle: String, context: Context): Notification {
         val taskDetailIntent = Intent(
             Intent.ACTION_VIEW,
-            "https://beerwager.com/wagersCreate/wagerId=${wagerId}/category=${WagerFilter.UPCOMING}".toUri(),
+            "https://beerwager.com/wagersCreate/wagerId=${wagerId}/category=${WagerCategory.UPCOMING}".toUri(),
             context,
             MainActivity::class.java
         )
@@ -55,7 +59,6 @@ class AlarmReceiver : BroadcastReceiver() {
         private const val REQUEST_CODE = 1
         private const val CHANNEL_NAME = "WagerChannel"
         private const val CHANNEL_ID = "WagerChannelId"
-        private const val NOTIFICATION_ID = 0
     }
 }
 

@@ -21,3 +21,12 @@ local.properties
 /.idea/codeStyles/Project.xml
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/vcs.xml
+/.idea/AndroidProjectSystem.xml
+/.idea/copilot.data.migration.agent.xml
+/.idea/copilot.data.migration.ask.xml
+/.idea/copilot.data.migration.ask2agent.xml
+/.idea/copilot.data.migration.edit.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/material_theme_project_new.xml
+/.idea/migrations.xml
+/.idea/runConfigurations.xml

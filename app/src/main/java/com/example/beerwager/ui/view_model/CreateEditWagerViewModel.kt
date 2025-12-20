@@ -3,8 +3,36 @@ package com.example.beerwager.ui.view_model
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.beerwager.domain.use_case.*
-import com.example.beerwager.ui.state.*
+import com.example.beerwager.domain.use_case.CloseWagerUseCase
+import com.example.beerwager.domain.use_case.CreateWagerUseCase
+import com.example.beerwager.domain.use_case.DeleteWagerUseCase
+import com.example.beerwager.domain.use_case.GetWagerByIdUseCase
+import com.example.beerwager.domain.use_case.UpdateWagerUseCase
+import com.example.beerwager.domain.use_case.ValidateDescriptionUseCase
+import com.example.beerwager.domain.use_case.ValidateTitleUseCase
+import com.example.beerwager.domain.use_case.ValidateWagererNameUseCase
+import com.example.beerwager.domain.use_case.ValidateWagerersUseCase
+import com.example.beerwager.ui.state.AddWagererEvent
+import com.example.beerwager.ui.state.AllDayChangedEvent
+import com.example.beerwager.ui.state.BeersChangedEvent
+import com.example.beerwager.ui.state.CalendarChangedEvent
+import com.example.beerwager.ui.state.CloseWagerEvent
+import com.example.beerwager.ui.state.ColourChangedEvent
+import com.example.beerwager.ui.state.CreateWagerState
+import com.example.beerwager.ui.state.CreateWagersEvent
+import com.example.beerwager.ui.state.DateChangedEvent
+import com.example.beerwager.ui.state.DeleteWagerEvent
+import com.example.beerwager.ui.state.DescriptionChangedEvent
+import com.example.beerwager.ui.state.EditUnlockedEvent
+import com.example.beerwager.ui.state.NotificationChangedEvent
+import com.example.beerwager.ui.state.RemoveWagererEvent
+import com.example.beerwager.ui.state.SaveWagerEvent
+import com.example.beerwager.ui.state.SubmitWagerEvent
+import com.example.beerwager.ui.state.TimeChangedEvent
+import com.example.beerwager.ui.state.TitleChangedEvent
+import com.example.beerwager.ui.state.ToggleInfoEvent
+import com.example.beerwager.ui.state.UIEvent
+import com.example.beerwager.ui.state.WagererNameChangedEvent
 import com.example.beerwager.utils.CalendarHelper
 import com.example.beerwager.utils.NavigationArgs
 import com.example.beerwager.utils.NotificationScheduler
@@ -39,15 +67,11 @@ class CreateEditWagerViewModel @Inject constructor(
     private val wagerId: Long = savedStateHandle.get<Long>(NavigationArgs.ARG_WAGER_ID)
         ?: throw IllegalArgumentException("Null id provided.")
 
-    private val category: String? = savedStateHandle.get<String>(NavigationArgs.ARG_CATEGORY)
-
     private var job: Job? = null
 
     private val _createWagerState by lazy {
         val state = MutableStateFlow(CreateWagerState())
-        category?.let { category ->
-            if (wagerId != -1L) setWagersById(state, wagerId, category)
-        }
+        if (wagerId != -1L) setWagersById(state, wagerId)
         state
     }
     val createWagerState = _createWagerState.asStateFlow()
@@ -196,24 +220,24 @@ class CreateEditWagerViewModel @Inject constructor(
 
     private fun setWagersById(
         stateFlow: MutableStateFlow<CreateWagerState>,
-        wagerId: Long,
-        category: String
+        wagerId: Long
     ) {
         job?.cancel()
         job = viewModelScope.launch(Dispatchers.IO) {
-            val wager = getWagerByIdUseCase(wagerId)
-            wager?.let {
+            val result = getWagerByIdUseCase(wagerId)
+            if (result != null) {
+                val (category, wager) = result
                 stateFlow.value = stateFlow.value.copy(
-                    beersAtStake = it.beersAtStake,
-                    title = it.title,
-                    description = it.description,
-                    date = it.date,
-                    time = it.time,
-                    hasNotification = it.hasNotification,
-                    colour = it.colour,
-                    wagerers = it.wagerers,
+                    beersAtStake = wager.beersAtStake,
+                    title = wager.title,
+                    description = wager.description,
+                    date = wager.date,
+                    time = wager.time,
+                    hasNotification = wager.hasNotification,
+                    colour = wager.colour,
+                    wagerers = wager.wagerers,
                     isBlocked = true,
-                    category = category
+                    wagerCategory = category
                 )
             }
         }

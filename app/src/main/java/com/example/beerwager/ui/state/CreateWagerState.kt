@@ -1,6 +1,7 @@
 package com.example.beerwager.ui.state
 
 import androidx.annotation.StringRes
+import com.example.beerwager.domain.models.WagerCategory
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -20,5 +21,5 @@ data class CreateWagerState(
     val wagerers: List<String> = emptyList(),
     @StringRes val wagerersError: Int? = null,
     val isBlocked: Boolean = false,
-    val category: String = ""
+    val wagerCategory: WagerCategory = WagerCategory.CLOSED
 )

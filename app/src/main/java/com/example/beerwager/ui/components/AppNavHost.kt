@@ -3,10 +3,13 @@ package com.example.beerwager.ui.components
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.example.beerwager.ui.components.createeditwager.CreateEditWagerView
+import com.example.beerwager.ui.components.createeditwager.PermissionAlertDialog
 import com.example.beerwager.ui.components.wagerlist.SearchView
 import com.example.beerwager.ui.components.wagerlist.WagersView
 import com.example.beerwager.ui.state.SaveWagerEvent
@@ -27,9 +31,9 @@ import kotlinx.coroutines.flow.collectLatest
 
 private const val ROUTE_WAGERS_LIST = "wagersList"
 private const val ROUTE_WAGERS_SEARCH = "wagersSearch?searchQuery={searchQuery}"
-private const val ROUTE_WAGERS_CREATE = "wagersCreate?wagerId={wagerId}?category={category}"
+private const val ROUTE_WAGERS_CREATE = "wagersCreate?wagerId={wagerId}"
 private fun getSearchQueryRouteWithArgument(searchQuery: String) = "wagersSearch?searchQuery=$searchQuery"
-private fun getDetailsRoute(id: Long, category: String) = "wagersCreate?wagerId=$id?category=$category"
+private fun getDetailsRoute(id: Long) = "wagersCreate?wagerId=$id"
 
 @Composable
 fun AppNavHost(
@@ -38,6 +42,9 @@ fun AppNavHost(
     startDestination: String = ROUTE_WAGERS_LIST,
 ) {
     val uri = "https://beerwager.com"
+
+    PermissionAlertDialog()
+
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -46,7 +53,7 @@ fun AppNavHost(
         // main wagers screen
         composable(ROUTE_WAGERS_LIST) {
             val viewModel = hiltViewModel<WagersViewModel>()
-            val state by viewModel.wagersState.collectAsState()
+            val state by viewModel.wagersState.collectAsStateWithLifecycle()
             WagersView(
                 modifier = Modifier.padding(top = Dimen.MARGIN_MEDIUM),
                 state = state,
@@ -59,8 +66,8 @@ fun AppNavHost(
                 onCreateClick = {
                     navController.navigate(ROUTE_WAGERS_CREATE)
                 },
-                onWagerClick = { id, category ->
-                    navController.navigate(getDetailsRoute(id, category))
+                onWagerClick = { id ->
+                    navController.navigate(getDetailsRoute(id))
                 },
                 onEvent = viewModel::onEvent
                 )
@@ -75,7 +82,7 @@ fun AppNavHost(
                 }
             )) {
             val viewModel = hiltViewModel<WagerSearchViewModel>()
-            val state by viewModel.wagerSearchState.collectAsState()
+            val state by viewModel.wagerSearchState.collectAsStateWithLifecycle()
             SearchView(
                 modifier = Modifier.padding(top = Dimen.MARGIN_MEDIUM),
                 state = state,
@@ -86,8 +93,8 @@ fun AppNavHost(
                     )
                     navController.popBackStack()
                 },
-                onWagerClick = { id, category ->
-                    navController.navigate(getDetailsRoute(id, category))
+                onWagerClick = { id ->
+                    navController.navigate(getDetailsRoute(id))
                 },
                 onEvent = viewModel::onEvent
             )
@@ -99,20 +106,18 @@ fun AppNavHost(
                 navArgument(NavigationArgs.ARG_WAGER_ID) {
                     type = NavType.LongType
                     defaultValue = -1L
-                },
-                navArgument(NavigationArgs.ARG_CATEGORY) {
-                    type = NavType.StringType
-                    nullable = true
                 }
             ),
-            deepLinks = listOf(navDeepLink { uriPattern = "$uri/wagersCreate/wagerId={wagerId}/category={category}" })
+            deepLinks = listOf(navDeepLink { uriPattern = "$uri/wagersCreate/wagerId={wagerId}" })
         ) {
+            val lifecycleOwner = LocalLifecycleOwner.current
             val viewModel = hiltViewModel<CreateEditWagerViewModel>()
-            val state by viewModel.createWagerState.collectAsState()
-            LaunchedEffect(key1 = true) {
-                viewModel.uiEvent.collectLatest {
-                    if (it is SaveWagerEvent) navController.popBackStack()
-
+            val state by viewModel.createWagerState.collectAsStateWithLifecycle()
+            LaunchedEffect(lifecycleOwner) {
+                lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.uiEvent.collectLatest {
+                        if (it is SaveWagerEvent) navController.popBackStack()
+                    }
                 }
             }
             CreateEditWagerView(

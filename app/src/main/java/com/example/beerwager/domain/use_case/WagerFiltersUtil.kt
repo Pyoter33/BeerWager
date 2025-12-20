@@ -6,15 +6,15 @@ import javax.inject.Inject
 
 class WagerFiltersUtil @Inject constructor() {
 
-    fun filterClosed(wagers: List<Wager>): List<Wager> {
-        return wagers.filter { it.isClosed }.sortedBy { it.date }
+    fun isClosed(wager: Wager): Boolean {
+        return wager.isClosed
     }
 
-    fun filterUpcoming(wagers: List<Wager>): List<Wager> {
-        return wagers.filter { !it.isClosed && (it.date.isBefore(LocalDate.now()) || it.date.isEqual(LocalDate.now())) }.sortedBy { it.date }
+    fun isUpcoming(wager: Wager): Boolean {
+        return !wager.isClosed && (wager.date.isBefore(LocalDate.now()) || wager.date.isEqual(LocalDate.now()))
     }
 
-    fun filterFuture(wagers: List<Wager>): List<Wager> {
-        return wagers.filter { !it.isClosed && it.date.isAfter(LocalDate.now()) }.sortedBy { it.date }
+    fun isFuture(wager: Wager): Boolean {
+        return !wager.isClosed && wager.date.isAfter(LocalDate.now())
     }
 }

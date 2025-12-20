@@ -1,11 +1,11 @@
 package com.example.beerwager.ui.state
 
-import com.example.beerwager.domain.models.WagerFilter
+import com.example.beerwager.domain.models.WagerCategory
 import java.time.LocalDate
 import java.time.LocalTime
 
 sealed class WagersEvent
-data class FilterEvent(val filters: List<WagerFilter>) : WagersEvent()
+data class FilterEvent(val filters: List<WagerCategory>) : WagersEvent()
 data class SearchEvent(val query: String) : WagersEvent()
 
 sealed class CreateWagersEvent
