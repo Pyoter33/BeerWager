@@ -55,7 +55,7 @@ fun AppNavHost(
             val viewModel = hiltViewModel<WagersViewModel>()
             val state by viewModel.wagersState.collectAsStateWithLifecycle()
             WagersView(
-                modifier = Modifier.padding(top = Dimen.MARGIN_MEDIUM),
+                modifier = Modifier.padding(top = Dimen.SPACING_XS),
                 state = state,
                 searchQuery = it.savedStateHandle[NavigationArgs.ARG_SEARCH_QUERY]
                     ?: NavigationArgs.ARG_EMPTY_STRING,
@@ -84,7 +84,7 @@ fun AppNavHost(
             val viewModel = hiltViewModel<WagerSearchViewModel>()
             val state by viewModel.wagerSearchState.collectAsStateWithLifecycle()
             SearchView(
-                modifier = Modifier.padding(top = Dimen.MARGIN_MEDIUM),
+                modifier = Modifier.padding(top = Dimen.SPACING_XS),
                 state = state,
                 onBackClick = {
                     navController.previousBackStackEntry?.savedStateHandle?.set(

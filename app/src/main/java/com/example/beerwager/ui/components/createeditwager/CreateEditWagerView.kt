@@ -112,9 +112,9 @@ fun CreateEditWagerView(
         }
     ) { paddingValues ->
         VerticalScrollLayout(
-            modifier = modifier.padding(bottom = Dimen.MARGIN_LARGE),
+            modifier = modifier.padding(bottom = Dimen.SPACING_M),
             contentPadding = paddingValues,
-            verticalArrangement = Arrangement.spacedBy(Dimen.MARGIN_SMALL),
+            verticalArrangement = Arrangement.spacedBy(Dimen.SPACING_XXS),
             ChildLayout { _, _ ->
                 TopView(
                     state.isBlocked,
@@ -141,7 +141,7 @@ fun CreateEditWagerView(
                         onBeersChanged = { onEvent(BeersChangedEvent(it)) },
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .padding(bottom = Dimen.MARGIN_LARGE)
+                            .padding(bottom = Dimen.SPACING_M)
                     )
                 }
             },
@@ -153,8 +153,8 @@ fun CreateEditWagerView(
                     onTextChanged = { onEvent(TitleChangedEvent(it)) },
                     errorMessage = state.titleError?.let { stringResource(id = it) },
                     modifier = Modifier.padding(
-                        start = Dimen.MARGIN_LARGE,
-                        end = Dimen.MARGIN_LARGE
+                        start = Dimen.SPACING_M,
+                        end = Dimen.SPACING_M
                     )
                 )
             },
@@ -166,8 +166,8 @@ fun CreateEditWagerView(
                     onTextChanged = { onEvent(DescriptionChangedEvent(it)) },
                     errorMessage = state.descriptionError?.let { stringResource(id = it) },
                     modifier = Modifier.padding(
-                        start = Dimen.MARGIN_LARGE,
-                        end = Dimen.MARGIN_LARGE
+                        start = Dimen.SPACING_M,
+                        end = Dimen.SPACING_M
                     )
                 )
             },
@@ -181,9 +181,9 @@ fun CreateEditWagerView(
                     onDateChanged = { onEvent(DateChangedEvent(it)) },
                     onCheckedChange = { onEvent(AllDayChangedEvent(it)) },
                     modifier = Modifier.padding(
-                        bottom = Dimen.MARGIN_XLARGE,
-                        start = Dimen.MARGIN_LARGE,
-                        end = Dimen.MARGIN_LARGE
+                        bottom = Dimen.SPACING_L,
+                        start = Dimen.SPACING_M,
+                        end = Dimen.SPACING_M
                     )
                 )
             },
@@ -195,9 +195,9 @@ fun CreateEditWagerView(
                         state.isBlocked,
                         onTimeChanged = { onEvent(TimeChangedEvent(it)) },
                         modifier = Modifier.padding(
-                            bottom = Dimen.MARGIN_XLARGE,
-                            start = Dimen.MARGIN_LARGE,
-                            end = Dimen.MARGIN_LARGE
+                            bottom = Dimen.SPACING_L,
+                            start = Dimen.SPACING_M,
+                            end = Dimen.SPACING_M
                         )
                     )
                 }
@@ -211,9 +211,9 @@ fun CreateEditWagerView(
                         onEvent(NotificationChangedEvent(it))
                     },
                     modifier = Modifier.padding(
-                        bottom = Dimen.MARGIN_XLARGE,
-                        start = Dimen.MARGIN_LARGE,
-                        end = Dimen.MARGIN_LARGE
+                        bottom = Dimen.SPACING_L,
+                        start = Dimen.SPACING_M,
+                        end = Dimen.SPACING_M
                     )
                 )
             },
@@ -237,9 +237,9 @@ fun CreateEditWagerView(
                         }
                     },
                     modifier = Modifier.padding(
-                        bottom = Dimen.MARGIN_XLARGE,
-                        start = Dimen.MARGIN_LARGE,
-                        end = Dimen.MARGIN_LARGE
+                        bottom = Dimen.SPACING_L,
+                        start = Dimen.SPACING_M,
+                        end = Dimen.SPACING_M
                     )
                 )
             },
@@ -251,9 +251,9 @@ fun CreateEditWagerView(
                     state.isBlocked,
                     onColourChanged = { onEvent(ColourChangedEvent(it)) },
                     modifier = Modifier.padding(
-                        bottom = Dimen.MARGIN_XLARGE,
-                        start = Dimen.MARGIN_LARGE,
-                        end = Dimen.MARGIN_LARGE
+                        bottom = Dimen.SPACING_L,
+                        start = Dimen.SPACING_M,
+                        end = Dimen.SPACING_M
                     )
                 )
             },
@@ -266,8 +266,8 @@ fun CreateEditWagerView(
                     onWagererAdded = { onEvent(AddWagererEvent) },
                     errorMessage = state.wagerersError?.let { stringResource(id = it) },
                     modifier = Modifier.padding(
-                        start = Dimen.MARGIN_LARGE,
-                        end = Dimen.MARGIN_LARGE
+                        start = Dimen.SPACING_M,
+                        end = Dimen.SPACING_M
                     )
                 )
             },
@@ -280,7 +280,7 @@ fun CreateEditWagerView(
                     state.isBlocked,
                     onWagererRemoved = { onEvent(RemoveWagererEvent(index)) },
                     modifier = Modifier
-                        .padding(start = Dimen.MARGIN_LARGE, end = Dimen.MARGIN_LARGE)
+                        .padding(start = Dimen.SPACING_M, end = Dimen.SPACING_M)
                         .fillMaxWidth()
                 )
             },
@@ -288,8 +288,8 @@ fun CreateEditWagerView(
                 ErrorTextView(
                     errorMessage = state.wagerersError?.let { stringResource(id = it) },
                     modifier = Modifier.padding(
-                        start = Dimen.MARGIN_LARGE,
-                        end = Dimen.MARGIN_LARGE
+                        start = Dimen.SPACING_M,
+                        end = Dimen.SPACING_M
                     )
                 )
             }

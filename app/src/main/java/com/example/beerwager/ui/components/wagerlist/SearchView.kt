@@ -59,11 +59,11 @@ fun SearchView(
             modifier = modifier
                 .padding(paddingValues)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(Dimen.MARGIN_MEDIUM)
+            verticalArrangement = Arrangement.spacedBy(Dimen.SPACING_XS)
         ) {
             ExtendedSearchField(
                 searchQuery = state.searchText,
-                modifier = Modifier.padding(end = Dimen.MARGIN_MEDIUM),
+                modifier = Modifier.padding(end = Dimen.SPACING_XS),
                 onValueChange = { onEvent(SearchEvent(it)) },
                 onBackButtonClick = { onBackClick(state.searchText) }
             )
@@ -95,7 +95,7 @@ private fun ExtendedSearchField(
     }
 
     Row(
-        horizontalArrangement = Arrangement.spacedBy(Dimen.MARGIN_SMALL),
+        horizontalArrangement = Arrangement.spacedBy(Dimen.SPACING_XXS),
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
     ) {
@@ -141,7 +141,7 @@ private fun SearchList(modifier: Modifier = Modifier, wagers: Map<WagerCategory,
                 } else {
                     WagerItem(wager = it, onWagerClick, Modifier.animateItem(placementSpec = tween()))
                 }
-                Spacer(modifier = Modifier.padding(Dimen.MARGIN_MEDIUM))
+                Spacer(modifier = Modifier.padding(Dimen.SPACING_XS))
             }
         }
     }

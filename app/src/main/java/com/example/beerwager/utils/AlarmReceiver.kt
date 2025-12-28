@@ -14,8 +14,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
-import com.example.beerwager.MainActivity
 import com.example.beerwager.R
+import com.example.beerwager.activity.MainActivity
 import com.example.beerwager.domain.models.WagerCategory
 
 class AlarmReceiver : BroadcastReceiver() {

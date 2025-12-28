@@ -75,7 +75,7 @@ fun ShortTextView(
             color = Black,
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(bottom = Dimen.MARGIN_SMALL)
+                .padding(bottom = Dimen.SPACING_XXS)
         )
         OutlinedTextField(
             value = text,
@@ -94,7 +94,7 @@ fun ShortTextView(
                 disabledBorderColor = Black.copy(alpha = ColorValues.ALPHA_DISABLED)
             ),
             modifier = Modifier
-                .padding(bottom = Dimen.MARGIN_SMALL)
+                .padding(bottom = Dimen.SPACING_XXS)
                 .fillMaxWidth()
         )
         ErrorTextView(errorMessage = errorMessage)
@@ -118,7 +118,7 @@ fun LongTextView(
             color = Black,
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(bottom = Dimen.MARGIN_SMALL)
+                .padding(bottom = Dimen.SPACING_XXS)
         )
 
         val shape = RoundedCornerShape(Dimen.CORNER_RADIUS_SMALL)
@@ -131,7 +131,7 @@ fun LongTextView(
             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
             modifier = Modifier
                 .height(Dimen.LONG_TEXT_FIELD_HEIGHT)
-                .padding(bottom = Dimen.MARGIN_SMALL)
+                .padding(bottom = Dimen.SPACING_XXS)
                 .onFocusChanged {
                     isFocused = it.isFocused
                 }
@@ -152,7 +152,7 @@ fun LongTextView(
                             boxColour
                         ), shape
                     )
-                    .padding(vertical = Dimen.MARGIN_SMALL, horizontal = Dimen.MARGIN_MEDIUM)
+                    .padding(vertical = Dimen.SPACING_XXS, horizontal = Dimen.SPACING_XS)
 
             ) {
                 if (text.isEmpty() && !placeholder.isNullOrEmpty()) {
@@ -218,7 +218,7 @@ private fun DatePickerView(
             )
         },
         modifier = modifier
-            .padding(bottom = Dimen.MARGIN_SMALL)
+            .padding(bottom = Dimen.SPACING_XXS)
             .width(Dimen.SMALL_TEXT_FIELD_WIDTH)
             .clickable(enabled = !isBlocked) {
                 datePicker.show()
@@ -250,7 +250,7 @@ private fun SwitchView(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
             color = Black,
-            modifier = Modifier.padding(start = Dimen.MARGIN_MEDIUM)
+            modifier = Modifier.padding(start = Dimen.SPACING_XS)
         )
     }
 }
@@ -275,7 +275,7 @@ fun DatePickerWithSwitchView(
             color = Black,
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(bottom = Dimen.MARGIN_SMALL)
+                .padding(bottom = Dimen.SPACING_XXS)
         )
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -328,7 +328,7 @@ fun TimePickerView(
             color = Black,
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(bottom = Dimen.MARGIN_SMALL)
+                .padding(bottom = Dimen.SPACING_XXS)
         )
 
         OutlinedTextField(
@@ -352,7 +352,7 @@ fun TimePickerView(
                 )
             },
             modifier = Modifier
-                .padding(bottom = Dimen.MARGIN_SMALL)
+                .padding(bottom = Dimen.SPACING_XXS)
                 .width(Dimen.SMALL_TEXT_FIELD_WIDTH)
                 .clickable(enabled = !isBlocked) {
                     timePicker.show()
@@ -407,7 +407,7 @@ fun WagerersSectionsView(
             color = Black,
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(bottom = Dimen.MARGIN_SMALL)
+                .padding(bottom = Dimen.SPACING_XXS)
         )
         OutlinedTextField(
             value = wagererName,

@@ -1,4 +1,4 @@
-package com.example.beerwager
+package com.example.beerwager.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,7 +18,7 @@ class MainActivity @Inject constructor() : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Surface(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.Companion.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
                 AppTheme {

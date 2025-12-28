@@ -140,7 +140,7 @@ fun CheckBoxView(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
             color = Black,
-            modifier = Modifier.padding(start = Dimen.MARGIN_BIG)
+            modifier = Modifier.padding(start = Dimen.SPACING_S)
         )
     }
 }
@@ -161,7 +161,7 @@ fun ColourPickerView(
             color = Black,
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(bottom = Dimen.MARGIN_MEDIUM)
+                .padding(bottom = Dimen.SPACING_XS)
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -203,7 +203,7 @@ fun CreateButton(
             text = label,
             style = MaterialTheme.typography.titleMedium,
             color = Black,
-            modifier = Modifier.padding(Dimen.MARGIN_SMALL)
+            modifier = Modifier.padding(Dimen.SPACING_XXS)
         )
     }
 }

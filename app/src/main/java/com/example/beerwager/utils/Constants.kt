@@ -5,12 +5,13 @@ import androidx.compose.ui.unit.dp
 object Dimen {
     val BORDER_UNFOCUSED = 1.dp
     val BORDER_FOCUSED = 2.dp
-    val MARGIN_SMALL = 4.dp
-    val MARGIN_MEDIUM = 8.dp
-    val MARGIN_BIG = 12.dp
-    val MARGIN_LARGE = 16.dp
-    val MARGIN_XLARGE = 20.dp
-    val MARGIN_XXLARGE = 32.dp
+    val SPACING_XXS = 4.dp
+    val SPACING_XS = 8.dp
+    val SPACING_S = 12.dp
+    val SPACING_M = 16.dp
+    val SPACING_L = 20.dp
+    val SPACING_XL = 24.dp
+    val SPACING_XXL = 32.dp
     val SWITCH_MARGIN = 30.dp
     val CORNER_RADIUS_XSMALL = 2.dp
     val CORNER_RADIUS_SMALL = 5.dp

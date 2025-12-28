@@ -25,7 +25,7 @@ fun WagerList(wagers: Map<WagerCategory, List<Wager>>, onWagerClick: (Long) -> U
                 WagerListHeader(
                     category = category,
                     Modifier
-                        .padding(Dimen.MARGIN_MEDIUM)
+                        .padding(Dimen.SPACING_XS)
                         .animateItem(placementSpec = tween())
                 )
             }
@@ -38,11 +38,11 @@ fun WagerList(wagers: Map<WagerCategory, List<Wager>>, onWagerClick: (Long) -> U
                 } else {
                     WagerItem(wager = it, onWagerClick, Modifier.animateItem(placementSpec = tween()))
                 }
-                Spacer(modifier = Modifier.padding(Dimen.MARGIN_MEDIUM))
+                Spacer(modifier = Modifier.padding(Dimen.SPACING_XS))
             }
         }
         item {
-            Spacer(modifier = Modifier.padding(Dimen.MARGIN_XXLARGE))
+            Spacer(modifier = Modifier.padding(Dimen.SPACING_XXL))
         }
     }
 }

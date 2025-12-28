@@ -58,7 +58,7 @@ fun WagersView(
         ) {
             SearchField(
                 modifier = Modifier
-                    .padding(horizontal = Dimen.MARGIN_MEDIUM)
+                    .padding(horizontal = Dimen.SPACING_XS)
                     .fillMaxWidth(),
                 searchQuery = state.searchText,
                 onClick = {
@@ -67,7 +67,7 @@ fun WagersView(
             )
             ChipGroup(
                 activeFilters = state.activeFilters,
-                modifier = Modifier.padding(horizontal = Dimen.MARGIN_MEDIUM)
+                modifier = Modifier.padding(horizontal = Dimen.SPACING_XS)
             ) { active, filter ->
                 if (active) {
                     onEvent(FilterEvent(state.activeFilters - filter))
@@ -116,7 +116,7 @@ private fun ChipGroup(
     activeFilters: List<WagerCategory>,
     onFilter: (Boolean, WagerCategory) -> Unit
 ) {
-    Row(modifier, horizontalArrangement = Arrangement.spacedBy(Dimen.MARGIN_MEDIUM)) {
+    Row(modifier, horizontalArrangement = Arrangement.spacedBy(Dimen.SPACING_XS)) {
         FilterChip(
             selected = WagerCategory.CLOSED in activeFilters,
             onClick = { onFilter(WagerCategory.CLOSED in activeFilters, WagerCategory.CLOSED) },
@@ -155,7 +155,7 @@ private fun FloatingButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
         shape = RoundedCornerShape(Dimen.CORNER_RADIUS_BIG),
         containerColor = Green,
         contentColor = Black,
-        elevation = FloatingActionButtonDefaults.elevation(Dimen.MARGIN_MEDIUM)
+        elevation = FloatingActionButtonDefaults.elevation(Dimen.SPACING_XS)
     ) {
         Icon(Icons.Outlined.Edit, stringResource(id = R.string.text_create_icon))
     }

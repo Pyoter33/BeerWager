@@ -50,7 +50,7 @@ private fun MainWagerBody(
                 color = Wager.WAGER_BACKGROUND_COLORS[wager.colour].copy(ColorValues.ALPHA_HALF),
                 RoundedCornerShape(corner = CornerSize(Dimen.CORNER_RADIUS_BIG))
             )
-            .padding(Dimen.MARGIN_MEDIUM)
+            .padding(Dimen.SPACING_XS)
     ) {
             Column(horizontalAlignment = Alignment.Start,
                 modifier = Modifier
@@ -71,7 +71,7 @@ private fun MainWagerBody(
                             Icons.Filled.Notifications,
                             contentDescription = stringResource(id = R.string.text_notification_icon)
                         )
-                        Spacer(modifier = Modifier.size(Dimen.MARGIN_SMALL))
+                        Spacer(modifier = Modifier.size(Dimen.SPACING_XXS))
                     }
                 }
                 Text(
@@ -82,13 +82,13 @@ private fun MainWagerBody(
                     overflow = TextOverflow.Ellipsis,
                     color = Grey
                 )
-                Spacer(Modifier.size(Dimen.MARGIN_SMALL))
+                Spacer(Modifier.size(Dimen.SPACING_XXS))
                 Row {
                     Text(
                         text = wager.date.format(dateFormatter),
                         style = MaterialTheme.typography.labelMedium
                     )
-                    Spacer(Modifier.size(Dimen.MARGIN_SMALL))
+                    Spacer(Modifier.size(Dimen.SPACING_XXS))
                     wager.time?.let {
                         Text(
                             text = it.format (timeFormatter)
@@ -138,7 +138,7 @@ fun WagerItem(wager: Wager, onClick: (Long) -> Unit, modifier: Modifier = Modifi
             wager = wager,
             modifier = Modifier
                 .weight(WAGER_BODY_WEIGHT)
-                .padding(start = Dimen.MARGIN_LARGE)
+                .padding(start = Dimen.SPACING_M)
                 .fillMaxWidth()
         )
         BeersAtStakeColumn(beersAtStake = wager.beersAtStake, modifier = Modifier.weight(
