@@ -48,4 +48,26 @@
     <string name="notification_permission_granted">All permissions granted.</string>
     <string name="notification_permission_allow_notifications">Allow notifications</string>
     <string name="notification_permission_allow_exact_alarms">Allow exact alarms</string>
+    <string name="login_are_you_ready_for_a">Are you ready for a</string>
+    <string name="login_wager">Wager?</string>
+    <string name="login_username">Username</string>
+    <string name="login_username_hint">Enter your username</string>
+    <string name="login_email">Email</string>
+    <string name="login_email_hint">Enter your email</string>
+    <string name="login_password">Password</string>
+    <string name="login_password_hint">Enter your password</string>
+    <string name="login_confirm_password">Confirm your password</string>
+    <string name="login_go_to_register">No account yet? Register!</string>
+    <string name="login_go_to_login">Already have an account? Log in!</string>
+    <string name="login_error_email_format">The email has an incorrect format</string>
+    <string name="login_error_username">This username already exists</string>
+    <string name="login_error_username_not_exists">The user with this username doesn\'t exist</string>
+    <string name="login_error_password_incorrect">The password is incorrect</string>
+    <string name="login_error_passwords_differs">The repeated password must be the same as the password</string>
+    <string name="login_error_unexpected">An unexpected error occurred</string>
+    <string name="login_error_field_empty">This field cannot be empty</string>
+    <string name="login_log_in">Log In</string>
+    <string name="login_register">Register</string>
+    <string name="screen_details">Details</string>
+    <string name="screen_search">Search</string>
 </resources>

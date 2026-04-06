@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -19,7 +23,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.example.beerwager.R
 import com.example.beerwager.data.data_source.Wager
+import com.example.beerwager.domain.models.WagerCategory
 import com.example.beerwager.ui.components.WagerYesCancelDialog
+import com.example.beerwager.ui.components.nav.ConfigureTopBar
+import com.example.beerwager.ui.components.nav.TopBarAction
 import com.example.beerwager.ui.state.AddWagererEvent
 import com.example.beerwager.ui.state.AllDayChangedEvent
 import com.example.beerwager.ui.state.BeersChangedEvent
@@ -61,8 +68,33 @@ fun CreateEditWagerView(
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showCloseDialog by remember { mutableStateOf(false) }
     val permissionStateCalendar = rememberPermissionState(android.Manifest.permission.WRITE_CALENDAR)
+    val backButtonHandler = { if (!state.isBlocked) showBackDialog = true else onBackClick() }
+    val actions = listOf(
+        TopBarAction(
+            icon = Icons.Filled.Done,
+            onClick = { showCloseDialog = true },
+            visible = state.isBlocked && state.wagerCategory == WagerCategory.UPCOMING
+        ),
+        TopBarAction(
+            icon = Icons.Filled.Edit,
+            onClick = { onEvent(EditUnlockedEvent) },
+            visible = state.isBlocked && state.wagerCategory != WagerCategory.CLOSED
+        ),
+        TopBarAction(
+            icon = Icons.Filled.Delete,
+            onClick = { showDeleteDialog = true },
+            visible = state.isBlocked
+        )
+    )
 
-    BackHandler { if (!state.isBlocked) showBackDialog = true else onBackClick() }
+    ConfigureTopBar(
+        title = stringResource(R.string.screen_details),
+        showBack = true,
+        onBack = { backButtonHandler() },
+        actions = actions
+    )
+
+    BackHandler { backButtonHandler() }
 
     if (showDeleteDialog) {
         WagerYesCancelDialog(
@@ -115,24 +147,6 @@ fun CreateEditWagerView(
             modifier = modifier.padding(bottom = Dimen.SPACING_M),
             contentPadding = paddingValues,
             verticalArrangement = Arrangement.spacedBy(Dimen.SPACING_XXS),
-            ChildLayout { _, _ ->
-                TopView(
-                    state.isBlocked,
-                    state.wagerCategory,
-                    onCloseClick = {
-                        showCloseDialog = true
-                    },
-                    onBackClick = {
-                        if (!state.isBlocked) {
-                            showBackDialog = true
-                        } else {
-                            onBackClick()
-                        }
-                    },
-                    onEditClick = { onEvent(EditUnlockedEvent) },
-                    onDeleteClick = { showDeleteDialog = true }
-                )
-            },
             ChildLayout { _, _ ->
                 Box(Modifier.fillMaxWidth()) {
                     BeersAtStakeView(

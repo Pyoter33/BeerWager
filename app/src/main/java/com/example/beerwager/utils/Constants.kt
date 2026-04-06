@@ -35,3 +35,6 @@ object NavigationArgs {
     const val ARG_WAGER_ID = "wagerId"
     const val ARG_EMPTY_STRING = ""
 }
+
+const val BASE_URL = "https://localhost:44329/api/"
+const val NETWORK_TIMEOUT = 15000L // 15 seconds

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.beerwager.R
 import com.example.beerwager.domain.models.WagerCategory
+import com.example.beerwager.ui.components.nav.ConfigureTopBar
+import com.example.beerwager.ui.components.nav.TopBarAction
 import com.example.beerwager.ui.state.FilterEvent
 import com.example.beerwager.ui.state.WagersState
 import com.example.beerwager.ui.theme.Black
@@ -45,8 +48,21 @@ fun WagersView(
     setSearchQuery: (String) -> Unit,
     onCreateClick: () -> Unit,
     onWagerClick: (Long) -> Unit,
-    onEvent: (FilterEvent) -> Unit
+    onEvent: (FilterEvent) -> Unit,
+    onLogoutClick: () -> Unit
 ) {
+    ConfigureTopBar(
+        title = stringResource(R.string.app_name),
+        showBack = false,
+        onBack = null,
+        actions = listOf(
+            TopBarAction(
+                icon = Icons.AutoMirrored.Filled.Logout,
+                onClick = { onLogoutClick() }
+            )
+        )
+    )
+
     setSearchQuery(searchQuery)
     Scaffold(
         floatingActionButton = { FloatingButton(onClick = onCreateClick) }

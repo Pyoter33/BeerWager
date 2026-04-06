@@ -11,10 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.SportsBar
 import androidx.compose.material.icons.outlined.AddCircleOutline
 import androidx.compose.material.icons.outlined.RemoveCircleOutline
@@ -30,59 +26,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import com.example.beerwager.R
-import com.example.beerwager.domain.models.WagerCategory
 import com.example.beerwager.ui.theme.Black
 import com.example.beerwager.ui.theme.White
 import com.example.beerwager.utils.ColorValues.ALPHA_SMALL
 import com.example.beerwager.utils.Dimen
-
-@Composable
-fun TopView(
-    isBlocked: Boolean,
-    category: WagerCategory,
-    onBackClick: () -> Unit,
-    onCloseClick: () -> Unit,
-    onEditClick: () -> Unit,
-    onDeleteClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = modifier.fillMaxWidth()) {
-        IconButton(onClick = onBackClick) {
-            Icon(
-                Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(id = R.string.text_back_icon)
-            )
-        }
-        if (isBlocked) {
-            Row(horizontalArrangement = Arrangement.End) {
-                if (category == WagerCategory.UPCOMING) {
-                    IconButton(onClick = onCloseClick) {
-                        Icon(
-                            Icons.Filled.Done,
-                            contentDescription = stringResource(id = R.string.text_done_icon)
-                        )
-                    }
-                }
-                if (category != WagerCategory.CLOSED) {
-                    IconButton(onClick = onEditClick) {
-                        Icon(
-                            Icons.Filled.Edit,
-                            contentDescription = stringResource(id = R.string.text_edit_icon)
-                        )
-                    }
-                }
-                IconButton(onClick = onDeleteClick) {
-                    Icon(
-                        Icons.Filled.Delete,
-                        contentDescription = stringResource(id = R.string.text_delete_icon)
-                    )
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun BeersAtStakeView(

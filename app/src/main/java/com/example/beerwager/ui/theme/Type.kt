@@ -1,11 +1,9 @@
 package com.example.beerwager.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.example.beerwager.R
 
 
@@ -23,48 +21,19 @@ private val AppFontFamily = FontFamily(
             resId = R.font.hahmlet_bold,
             weight = FontWeight.Bold
         )
-)
+    )
 )
 
-val Typography = Typography(
-    titleLarge = TextStyle(
-        fontFamily = AppFontFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 42.sp,
-    ),
-    titleMedium = TextStyle(
-        fontFamily = AppFontFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 21.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.sp
-    ),
-    bodyLarge = TextStyle(
-        fontFamily = AppFontFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 17.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    ),
-    bodyMedium = TextStyle(
-        fontFamily = AppFontFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 15.sp,
-        lineHeight = 15.sp,
-        letterSpacing = 0.25.sp
-    ),
-    bodySmall = TextStyle(
-        fontFamily = AppFontFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 13.sp,
-        lineHeight = 13.sp,
-        letterSpacing = 0.25.sp
-    ),
-    labelMedium = TextStyle(
-        fontFamily = AppFontFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 12.sp,
-        letterSpacing = 0.25.sp
-    )
+val Typography = Typography().copy(
+    titleLarge = Typography().titleLarge.copy(fontFamily = AppFontFamily),
+    titleMedium = Typography().titleMedium.copy(fontFamily = AppFontFamily),
+    headlineLarge = Typography().headlineLarge.copy(fontFamily = AppFontFamily),
+    headlineMedium = Typography().headlineMedium.copy(fontFamily = AppFontFamily),
+    headlineSmall = Typography().headlineSmall.copy(fontFamily = AppFontFamily),
+    bodyLarge = Typography().bodyLarge.copy(fontFamily = AppFontFamily),
+    bodyMedium = Typography().bodyMedium.copy(fontFamily = AppFontFamily),
+    bodySmall = Typography().bodySmall.copy(fontFamily = AppFontFamily),
+    labelLarge = Typography().labelLarge.copy(fontFamily = AppFontFamily),
+    labelMedium = Typography().labelMedium.copy(fontFamily = AppFontFamily),
+    labelSmall = Typography().labelSmall.copy(fontFamily = AppFontFamily),
 )
